@@ -1,3 +1,4 @@
+import Router from 'koa-router';
 export const routes = [];
 
 export const createSingleRoute = (pathOrRegex, method, response, condition, responseError) => {
@@ -13,3 +14,6 @@ export const ceateManyRoutes = () => {
   }
   return routerEmitter;
 };
+
+const router = new Router();
+

@@ -2,11 +2,10 @@ import Koa from 'koa2';
 import bodyParser from 'koa-bodyparser';
 import cors from 'koa-cors';
 import logger from 'koa-logger';
-import koaRouter from 'koa-router';
 import { ceateManyRoutes as manyRoutes, createSingleRoute as singleRoutes, routes as initialRoutes } from './routes'
 import { fakeGet, fakePost } from './actions'
 
-class FakeServer {
+export class FakeServer {
   routes: Array<any>;
   callCount: number;
   called: boolean;
@@ -17,7 +16,7 @@ class FakeServer {
   constructor(port: number, logger: boolean) {
     this.logger = logger;
     this.port = port;
-    this.router = koaRouter();
+    this.router = new Router();
     this.routes = initialRoutes;
     this.callCount = 0;
     this.called = false;
