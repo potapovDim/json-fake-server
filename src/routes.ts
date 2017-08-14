@@ -1,8 +1,4 @@
-import router from 'koa-router';
-
-const routes = [];
-let callCount = 0;
-let called = false;
+export const routes = [];
 
 export const createSingleRoute = (pathOrRegex, method, response, condition, responseError) => {
   routes.push({ method, pathOrRegex, condition, response, responseError })
