@@ -6,6 +6,11 @@
 
 <img src="./screen.png" width="550"/>
 
+## Install
+```sh
+npm install -SD test-fake-server
+```
+
 ```js
 
 const {FakeServer} = require('test-fake-server');
