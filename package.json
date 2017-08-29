@@ -1,6 +1,6 @@
 {
   "name": "test-fake-server",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "simple pure node http server",
   "main": "index.js",
   "scripts": {
