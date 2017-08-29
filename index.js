@@ -1,28 +1,8 @@
 ":" //; exec /usr/bin/env node --harmony --expose-gc --trace-deprecation "$0" "$@"
 
-
-const methodHandler = (method, cb, ...rest) => {
-  switch (method) {
-    case 'DELETE':
-      cd && rest ? cb(rest) : cd && !rest ? cd() : null
-      break;
-    case 'POST':
-      cd && rest ? cb(rest) : cd && !rest ? cd() : null
-      break;
-    case 'GET':
-      cd && rest ? cb(rest) : cd && !rest ? cd() : null
-      break;
-    case 'PUT':
-      cd && rest ? cb(rest) : cd && !rest ? cd() : null
-      break;
-  };
-};
-
-
-
-
 const FakeServer = {
-  serverAction =[],
+  port: undefined,
+  serverAction: [],
   put: (path, response) => {
     FakeServer.serverAction.push({
       method: 'PUT',
@@ -50,7 +30,6 @@ const FakeServer = {
   start: () => {
     const http = require('http');
     const fs = require('fs');
-    const url = require('url');
     const parseQuery = (queryString) => {
       let query = {}
       queryString.split('&&').forEach((item) => {
@@ -64,15 +43,24 @@ const FakeServer = {
       return query;
     };
     http.createServer((request, response) => {
-      const url = url.parse(request.url);
+      const url = require('url').parse(request.url);
       const METHOD = request.method;
-      const query = parseQuery(pathname.query)
-      FakeServer.serverAction.forEach((handler))
-      // response.writeHead(404, { 'Content-Type': 'text/html' });
-      response.writeHead(200, { 'Content-Type': 'text/html' });
-      response.write(data.toString());
+      const pathname = url.pathname;
+      // const query = parseQuery(url.query)
+      FakeServer.serverAction.forEach((handler) => {
+        if (handler.method == METHOD && handler.path == pathname) {
+          response.writeHead(200, { 'Content-Type': 'application/json' });
+          response.write(JSON.stringify(handler.response));
+        } else {
+          response.writeHead(404, { 'Content-Type': 'application/json' });
+          response.write(JSON.stringify({body: 'api.notfound'}));
+        }
+      })
       response.end();
-
-    }).listen(8085);
-  };
+    }).listen(FakeServer.port ? FakeServer.port : 4000);
+  }
 };
+
+module.exports = {
+  FakeServer
+}
