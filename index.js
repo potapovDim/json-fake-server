@@ -1,8 +1,14 @@
 ":" //; exec /usr/bin/env node --harmony --expose-gc --trace-deprecation "$0" "$@"
 
+const methodEnum = ['POST', 'GET', 'PUT', 'DELETE'];
+
 const formResponse = (serverAction, method, pathname, response) => {
+  if (!methodEnum.includes(method)) {
+    response.writeHead(404, { 'Content-Type': 'application/json' });
+    response.write(JSON.stringify({ body: 'method.not.support' }));
+  };
   let actinoPresent = false
-  let currentAction
+  let currentAction;
   serverAction.forEach((handler) => {
     if (handler.method == method && handler.path == pathname) {
       handler.called = true;
@@ -83,4 +89,4 @@ const FakeServer = {
 
 module.exports = {
   FakeServer
-}
+};
