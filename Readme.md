@@ -8,7 +8,7 @@
 
 ## Install
 ```sh
-npm install -SD test-fake-server
+npm install -SD mock-backend-rest
 ```
 
 ```js
