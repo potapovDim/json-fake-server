@@ -2,30 +2,28 @@
 
 const methodEnum = ['POST', 'GET', 'PUT', 'DELETE'];
 
-
 const formResult = (action) => {
   const act = Object.assign({}, action);
   Reflect.deleteProperty(act, 'path');
   Reflect.deleteProperty(act, 'response');
   return act;
-}
-
+};
 
 const getCurrentPost = (path, actions) => {
-  const result = actions.filter(action => action.method == 'POST' && action.path == path)
-  return result.length == 1 ? formResult(result[0]) : {}
+  const result = actions.filter(action => action.method == 'POST' && action.path == path);
+  return result.length == 1 ? formResult(result[0]) : {};
 };
 const getCurrentGet = (path, actions) => {
-  const result = actions.filter(action => action.method == 'GET' && action.path == path)
-  return result.length == 1 ? formResult(result[0]) : {}
+  const result = actions.filter(action => action.method == 'GET' && action.path == path);
+  return result.length == 1 ? formResult(result[0]) : {};
 };
 const getCurrentPut = (path, actions) => {
-  const result = actions.filter(action => action.method == 'PUT' && action.path == path)
-  return result.length == 1 ? formResult(result[0]) : {}
+  const result = actions.filter(action => action.method == 'PUT' && action.path == path);
+  return result.length == 1 ? formResult(result[0]) : {};
 };
 const getCurrentDel = (path, actions) => {
-  const result = actions.filter(action => action.method == 'DELETE' && action.path == path)
-  return result.length == 1 ? formResult(result[0]) : {}
+  const result = actions.filter(action => action.method == 'DELETE' && action.path == path);
+  return result.length == 1 ? formResult(result[0]) : {};
 };
 
 const formResponse = (serverAction, method, pathname, response, calledBody) => {

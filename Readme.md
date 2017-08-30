@@ -13,7 +13,7 @@ npm install -SD mock-backend-rest
 
 ```js
 
-const {FakeServer} = require('test-fake-server');
+const {FakeServer} = require('mock-backend-rest');
 
 FakeServer.port = 8085; //default port is 4000
 FakeServer.get('/foo', {LOL: 'LOL'}); 
