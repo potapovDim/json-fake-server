@@ -24,14 +24,8 @@ FakeServer.put('/bar', {LOL: 'LOL'});
 FakeServer.start();
 
 console.log(FakeServer.getGetResult('/foo')) 
-//output 
-//{  
-//    called: false,
-//    callCount: 0,
-//    method: 'GET',
-//    path: '/foo',
-//    response: { LOL: 'LOL' }
-//}
+//output  { called: false, callCount: 0, method: 'GET' }
+
 ```
 
 methods | args
@@ -42,5 +36,10 @@ methods | args
 **`put`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'}
 **`start`** | any args
 **`port`** | setter, any or number, default is 4000
+**`getDelResult`** | path: `string` example '/foo', if server dont have action for this path return empty obj
+**`getPutResult`** | path: `string` example '/foo', if server dont have action for this path return empty obj
+**`getGetResult`** | path: `string` example '/foo', if server dont have action for this path return empty obj
+**`getPostResult`** | path: `string` example '/foo', if server dont have action for this path return empty obj
+
 
 don`t need any dependencies

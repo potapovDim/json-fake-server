@@ -2,12 +2,33 @@
 
 const methodEnum = ['POST', 'GET', 'PUT', 'DELETE'];
 
-const getCurrentPost = (path, actions) => actions.filter(action => action.method == 'POST' && action.path == path);
-const getCurrentGet = (path, actions) => actions.filter(action => action.method == 'GET' && action.path == path);
-const getCurrentPut = (path, actions) => actions.filter(action => action.method == 'PUT' && action.path == path);
-const getCurrentDel = (path, actions) => actions.filter(action => action.method == 'DELETE' && action == path);
 
-const formResponse = (serverAction, method, pathname, response) => {
+const formResult = (action) => {
+  const act = Object.assign({}, action);
+  Reflect.deleteProperty(act, 'path');
+  Reflect.deleteProperty(act, 'response');
+  return act;
+}
+
+
+const getCurrentPost = (path, actions) => {
+  const result = actions.filter(action => action.method == 'POST' && action.path == path)
+  return result.length == 1 ? formResult(result[0]) : {}
+};
+const getCurrentGet = (path, actions) => {
+  const result = actions.filter(action => action.method == 'GET' && action.path == path)
+  return result.length == 1 ? formResult(result[0]) : {}
+};
+const getCurrentPut = (path, actions) => {
+  const result = actions.filter(action => action.method == 'PUT' && action.path == path)
+  return result.length == 1 ? formResult(result[0]) : {}
+};
+const getCurrentDel = (path, actions) => {
+  const result = actions.filter(action => action.method == 'DELETE' && action.path == path)
+  return result.length == 1 ? formResult(result[0]) : {}
+};
+
+const formResponse = (serverAction, method, pathname, response, calledBody) => {
   if (!methodEnum.includes(method)) {
     response.writeHead(404, { 'Content-Type': 'application/json' });
     response.write(JSON.stringify({ body: 'method.not.support' }));
@@ -18,6 +39,7 @@ const formResponse = (serverAction, method, pathname, response) => {
     if (handler.method == method && handler.path == pathname) {
       handler.called = true;
       handler.callCount++;
+      handler.calledArgs.push(calledBody);
       actinoPresent = true;
       currentAction = handler;
     };
@@ -34,25 +56,14 @@ const formResponse = (serverAction, method, pathname, response) => {
 const FakeServer = {
   port: undefined,
   serverAction: [],
-  getPostResult: (path) => {
-    const result = getCurrentPost(path, FakeServer.serverAction)
-    return result.length == 1 ? result[0] : {}
-  },
-  getGetResult: (path) => {
-    const result = getCurrentGet(path, FakeServer.serverAction)
-    return result.length == 1 ? result[0] : {}
-  },
-  getPutResult: (path) => {
-    const result = getCurrentPut(path, FakeServer.serverAction)
-    return result.length == 1 ? result[0] : {}
-  },
-  getDelResult: (path) => {
-    const result = getCurrentDel(path, FakeServer.serverAction)
-    return result.length == 1 ? result[0] : {}
-  },
+  getPostResult: (path) => getCurrentPost(path, FakeServer.serverAction),
+  getGetResult: (path) => getCurrentGet(path, FakeServer.serverAction),
+  getPutResult: (path) => getCurrentPut(path, FakeServer.serverAction),
+  getDelResult: (path) =>  getCurrentDel(path, FakeServer.serverAction),
   put: (path, response) => {
     FakeServer.serverAction.push({
       called: false,
+      calledArgs: [],
       callCount: 0,
       method: 'PUT',
       path, response
@@ -60,6 +71,7 @@ const FakeServer = {
   },
   post: (path, response) => {
     FakeServer.serverAction.push({
+      calledArgs: [],
       called: false,
       callCount: 0,
       method: 'POST',
@@ -78,6 +90,7 @@ const FakeServer = {
     FakeServer.serverAction.push({
       called: false,
       callCount: 0,
+      calledArgs: [],
       method: 'DELETE',
       path, response
     })
@@ -98,10 +111,20 @@ const FakeServer = {
       return query;
     };
     http.createServer((request, response) => {
+      let body = ''
       const url = require('url').parse(request.url);
       const METHOD = request.method;
       const pathname = url.pathname;
       // const query = parseQuery(url.query)
+      request.on('data', (chunk) => {
+        body += chunk.toString('utf8');
+      }).on('end', () => {
+        try {
+          body = JSON.parse(body);
+        } catch (error) {
+          console.error(error);
+        }
+      });
       formResponse(FakeServer.serverAction, METHOD, pathname, response);
       response.end();
     }).listen(FakeServer.port ? FakeServer.port : 4000);
