@@ -1,6 +1,6 @@
 {
-  "name": "mock-backend-rest",
-  "version": "0.0.9",
+  "name": "test-fake-server",
+  "version": "0.0.9d",
   "description": "simple pure node http server",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/potapovDim/Fake-server.git"
+    "url": "git+https://github.com/potapovDim/mock-backend-rest.git"
   },
   "keywords": [
     "HTTP",
@@ -19,8 +19,7 @@
   "author": "potapovDim",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/potapovDim/Fake-server/issues"
+    "url": "https://github.com/potapovDim/mock-backend-rest/issues"
   },
-  "homepage": "https://github.com/potapovDim/Fake-server#readme",
-  "dependencies": {}
+  "homepage": "https://github.com/potapovDim/mock-backend-rest#readme"
 }
