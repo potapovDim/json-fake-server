@@ -21,5 +21,6 @@
   "bugs": {
     "url": "https://github.com/potapovDim/Fake-server/issues"
   },
-  "homepage": "https://github.com/potapovDim/Fake-server#readme"
+  "homepage": "https://github.com/potapovDim/Fake-server#readme",
+  "dependencies": {}
 }

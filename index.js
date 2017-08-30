@@ -2,6 +2,11 @@
 
 const methodEnum = ['POST', 'GET', 'PUT', 'DELETE'];
 
+const getCurrentPost = (path, actions) => actions.filter(action => action.method == 'POST' && action.path == path);
+const getCurrentGet = (path, actions) => actions.filter(action => action.method == 'GET' && action.path == path);
+const getCurrentPut = (path, actions) => actions.filter(action => action.method == 'PUT' && action.path == path);
+const getCurrentDel = (path, actions) => actions.filter(action => action.method == 'DELETE' && action == path);
+
 const formResponse = (serverAction, method, pathname, response) => {
   if (!methodEnum.includes(method)) {
     response.writeHead(404, { 'Content-Type': 'application/json' });
@@ -29,6 +34,22 @@ const formResponse = (serverAction, method, pathname, response) => {
 const FakeServer = {
   port: undefined,
   serverAction: [],
+  getPostResult: (path) => {
+    const result = getCurrentPost(path, FakeServer.serverAction)
+    return result.length == 1 ? result[0] : {}
+  },
+  getGetResult: (path) => {
+    const result = getCurrentGet(path, FakeServer.serverAction)
+    return result.length == 1 ? result[0] : {}
+  },
+  getPutResult: (path) => {
+    const result = getCurrentPut(path, FakeServer.serverAction)
+    return result.length == 1 ? result[0] : {}
+  },
+  getDelResult: (path) => {
+    const result = getCurrentDel(path, FakeServer.serverAction)
+    return result.length == 1 ? result[0] : {}
+  },
   put: (path, response) => {
     FakeServer.serverAction.push({
       called: false,
@@ -53,7 +74,7 @@ const FakeServer = {
       path, response
     })
   },
-  delete: (path, response) => {
+  del: (path, response) => {
     FakeServer.serverAction.push({
       called: false,
       callCount: 0,
