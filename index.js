@@ -1,5 +1,5 @@
 ":" //; exec /usr/bin/env node --harmony --expose-gc --trace-deprecation "$0" "$@"
-
+const path = require('path');
 const methodEnum = ['POST', 'GET', 'PUT', 'DELETE'];
 
 const formResult = (action) => {
@@ -26,6 +26,18 @@ const getCurrentDel = (path, actions) => {
   return result.length == 1 ? formResult(result[0]) : {};
 };
 
+
+const assertResponse = (response) => {
+  if(typeof response == 'string') {
+    const pathToResponse = path.resolve(process.cwd(), response);
+    try {
+      return require(pathToResponse);
+    } catch (error) {
+      console.error(error)
+    }
+  };
+  return response;
+};
 const formResponse = (serverAction, method, pathname, response, calledBody) => {
   if (!methodEnum.includes(method)) {
     response.writeHead(404, { 'Content-Type': 'application/json' });
@@ -64,7 +76,8 @@ const FakeServer = {
       calledArgs: [],
       callCount: 0,
       method: 'PUT',
-      path, response
+      path,
+      response: assertResponse(response)
     })
   },
   post: (path, response) => {
@@ -73,7 +86,8 @@ const FakeServer = {
       called: false,
       callCount: 0,
       method: 'POST',
-      path, response
+      path,
+      response: assertResponse(response)
     })
   },
   get: (path, response) => {
@@ -81,7 +95,8 @@ const FakeServer = {
       called: false,
       callCount: 0,
       method: 'GET',
-      path, response
+      path,
+      response: assertResponse(response)
     })
   },
   del: (path, response) => {
@@ -90,7 +105,7 @@ const FakeServer = {
       callCount: 0,
       calledArgs: [],
       method: 'DELETE',
-      path, response
+      response: assertResponse(response)
     })
   },
   start: () => {

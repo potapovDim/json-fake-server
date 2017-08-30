@@ -16,8 +16,8 @@ npm install -SD mock-backend-rest
 const {FakeServer} = require('mock-backend-rest');
 
 FakeServer.port = 8085; //default port is 4000
-FakeServer.get('/foo', {LOL: 'LOL'}); 
-FakeServer.post('/bar', {LOL: 'LOL'});
+FakeServer.get('/foo', './index.json'); //path to json file what will be response
+FakeServer.post('/bar', {LOL: 'LOL'}); //
 FakeServer.del('/foo', {LOL: 'LOL'});
 FakeServer.put('/bar', {LOL: 'LOL'});
 
@@ -30,10 +30,10 @@ console.log(FakeServer.getGetResult('/foo'))
 
 methods | args
 --- | ---
-**`get`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'}
-**`post`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'}
-**`del`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'}
-**`put`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'}
+**`get`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'} || `string` - path to json filre
+**`post`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'} || `string` - path to json filre
+**`del`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'}  || `string` - path to json filre
+**`put`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'}  || `string` - path to json filre
 **`start`** | any args
 **`port`** | setter, any or number, default is 4000
 **`getDelResult`** | path: `string` example '/foo', if server dont have action for this path return empty obj
