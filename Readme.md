@@ -28,10 +28,10 @@ console.log(FakeServer.getGetResult('/foo'))
 
 methods | args
 --- | ---
-**`get(path, response)`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'} \n || `string` - path to json filre
-**`post(path, response)`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'} \n|| `string` - path to json filre
-**`del(path, response)`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'} \n|| `string` - path to json filre
-**`put(path, response)`** | path: `string` example: '/foo'; response: `object` example {LOL: 'LOL'} \n || `string` - path to json filre
+**`get(path, response)`** | path: `string` example: '/foo'; response: `object` || `string` - path to json filre
+**`post(path, response)`** | path: `string` example: '/foo'; response: `object`|| `string` - path to json filre
+**`del(path, response)`** | path: `string` example: '/foo'; response: `object` || `string` - path to json filre
+**`put(path, response)`** | path: `string` example: '/foo'; response: `object` || `string` - path to json filre
 **`start()`** | any args
 **`port`** | setter, any or number, default is 4000
 **`getDelResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
