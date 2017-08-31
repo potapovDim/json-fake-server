@@ -11,7 +11,7 @@ npm install -SD mock-backend-rest
 
 ```js
 
-const {FakeServer} = require('mock-backend-rest');
+const FakeServer = require('mock-backend-rest');
 
 FakeServer.port = 8085; //default port is 4000
 FakeServer.get('/foo', './index.json'); //path to json file what will be response
@@ -21,9 +21,19 @@ FakeServer.put('/bar', {LOL: 'LOL'});
 
 FakeServer.start();
 
-console.log(FakeServer.getGetResult('/foo')) 
+console.log(FakeServer.getGetResult('/foo')); 
 //output  { called: false, callCount: 0, method: 'GET' }
-
+//curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:8085/bar
+//two times use curl and after
+setTimeout(() => {
+  console.log(FakeServer.getPostResult('/bar'))
+}, 10000)
+//{ calledArgs:
+//   [ { key1: 'value1', key2: 'value2' },
+//     { key1: 'value1', key2: 'value2' } ],
+// called: true,
+// callCount: 2,
+// method: 'POST' }
 ```
 
 methods | args

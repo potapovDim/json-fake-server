@@ -2,6 +2,9 @@
 const path = require('path');
 const methodEnum = ['POST', 'GET', 'PUT', 'DELETE'];
 
+
+const parseJson = body => JSON.parse(body);
+
 const formResult = (action) => {
   const act = Object.assign({}, action);
   Reflect.deleteProperty(act, 'path');
@@ -28,7 +31,7 @@ const getCurrentDel = (path, actions) => {
 
 
 const assertResponse = (response) => {
-  if(typeof response == 'string') {
+  if (typeof response == 'string') {
     const pathToResponse = path.resolve(process.cwd(), response);
     try {
       return require(pathToResponse);
@@ -49,7 +52,7 @@ const formResponse = (serverAction, method, pathname, response, calledBody) => {
     if (handler.method == method && handler.path == pathname) {
       handler.called = true;
       handler.callCount++;
-      handler.calledArgs.push(calledBody);
+      !(method == 'GET') && handler.calledArgs.push(calledBody);
       actinoPresent = true;
       currentAction = handler;
     };
@@ -69,7 +72,7 @@ const FakeServer = {
   getPostResult: (path) => getCurrentPost(path, FakeServer.serverAction),
   getGetResult: (path) => getCurrentGet(path, FakeServer.serverAction),
   getPutResult: (path) => getCurrentPut(path, FakeServer.serverAction),
-  getDelResult: (path) =>  getCurrentDel(path, FakeServer.serverAction),
+  getDelResult: (path) => getCurrentDel(path, FakeServer.serverAction),
   put: (path, response) => {
     FakeServer.serverAction.push({
       called: false,
@@ -124,26 +127,25 @@ const FakeServer = {
       return query;
     };
     http.createServer((request, response) => {
-      let body = ''
+      let requestBody = ''
       const url = require('url').parse(request.url);
       const METHOD = request.method;
       const pathname = url.pathname;
-      // const query = parseQuery(url.query)
+
       request.on('data', (chunk) => {
-        body += chunk.toString('utf8');
+        requestBody += chunk.toString('utf8');
       }).on('end', () => {
         try {
-          body = JSON.parse(body);
+          requestBody = !(METHOD == 'GET') ? parseJson(requestBody) : ''; 
+          formResponse(FakeServer.serverAction, METHOD, pathname, response, requestBody);
+          response.end();
         } catch (error) {
           console.error(error);
         }
       });
-      formResponse(FakeServer.serverAction, METHOD, pathname, response);
-      response.end();
+
     }).listen(FakeServer.port ? FakeServer.port : 4000);
   }
 };
 
-module.exports = {
-  FakeServer
-};
+module.exports = FakeServer;
