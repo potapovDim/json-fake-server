@@ -1,6 +1,9 @@
 #Fork and improve
 ## Usage
 
+* You can start fake server
+* Mock some response (GET, POST, PUT, DELETE), if you need big response - can read it from JSON file
+* Stop fake server
 
 <img src="./screen.png" width="550"/>
 
@@ -26,8 +29,9 @@ console.log(FakeServer.getGetResult('/foo'));
 //curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:8085/bar
 //two times use curl and after
 setTimeout(() => {
-  console.log(FakeServer.getPostResult('/bar'))
-}, 10000)
+  console.log(FakeServer.getPostResult('/bar'));
+  FakeServer.stop();
+}, 10000);
 //{ calledArgs:
 //   [ { key1: 'value1', key2: 'value2' },
 //     { key1: 'value1', key2: 'value2' } ],
@@ -43,11 +47,16 @@ methods | args
 **`del(path, response)`** | path: `string` example: '/foo'; response: `object`  or `string` - path to json filre
 **`put(path, response)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json filre
 **`start()`** | any args
+**`stop()`** | any args, if server not started - will get message
 **`port`** | setter, any or number, default is 4000
 **`getDelResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
 **`getPutResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
 **`getGetResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
 **`getPostResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
 
+## don`t need any dependencies
 
-don`t need any dependencies
+##Plan 
+ * [ ] foo
+ * [x] bar
+ * [ ] baz

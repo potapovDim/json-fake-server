@@ -14,7 +14,9 @@
     "HTTP",
     "fake-server",
     "REST",
-    "API"
+    "API",
+    "MOCK",
+    "MOCK-BACKEND"
   ],
   "author": "potapovDim",
   "license": "ISC",
