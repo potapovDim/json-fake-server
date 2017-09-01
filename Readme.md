@@ -56,7 +56,7 @@ methods | args
 
 ## don`t need any dependencies
 
-##Plan 
- * [ ] foo
- * [x] bar
- * [ ] baz
+## Improvement plan
+ * [x] Stop FakeServer
+ * [ ] Mock request for any url
+ * [ ] Read response fron any file, and any format
