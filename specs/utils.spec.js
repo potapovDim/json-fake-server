@@ -3,7 +3,8 @@ const {expect} = require('chai');
 const {
   formResult,
   parseJson,
-  killServer
+  killServer,
+  getCurrentAction
 } = require('../lib/util')
 
 describe('util', () => {
@@ -19,5 +20,26 @@ describe('util', () => {
     expect(formResult({
       a: 'a'
     })).to.eql({a: 'a'});
-  })
+  });
+  it('getCurrentAction', () => {
+    expect(getCurrentAction('','', [])).to.eql({})
+    expect(getCurrentAction('/a','TEST', [{
+      path: '/a',
+      method: 'TEST1',
+      calledArgs: []
+    }])).to.eql({})
+    expect(getCurrentAction('/a','TEST', [{
+      path: '/b',
+      method: 'TEST',
+      calledArgs: []
+    }])).to.eql({})
+    expect(getCurrentAction('/a','TEST', [{
+      path: '/a',
+      method: 'TEST',
+      calledArgs: []
+    }])).to.eql({
+      method: 'TEST',
+      calledArgs: []
+    })
+  });
 });
