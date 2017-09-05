@@ -44,10 +44,11 @@ setTimeout(() => {
 methods | args
 --- | ---
 **`port`** | setter, any or number, default is 4000
-**`get(path, response)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json filre
-**`post(path, response)`** | path: `string` example: '/foo'; response: `object`or `string` - path to json filre
-**`del(path, response)`** | path: `string` example: '/foo'; response: `object`  or `string` - path to json filre
-**`put(path, response)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json filre
+**`responseFormat`** | `string` 'text' or 'json' (default json)
+**`get(path, response)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json file or string response
+**`post(path, response)`** | path: `string` example: '/foo'; response: `object`or `string` - path to json file or string response
+**`del(path, response)`** | path: `string` example: '/foo'; response: `object`  or `string` - path to json file or string response
+**`put(path, response)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json file or string response
 **`start()`** | any args
 **`getDelResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
 **`getPutResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
