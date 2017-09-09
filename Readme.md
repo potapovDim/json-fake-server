@@ -16,22 +16,24 @@ npm install -SD mock-backend-rest
 
 const FakeServer = require('mock-backend-rest');
 
-FakeServer.port = 8085; //default port is 4000
-FakeServer.get('/foo', './index.json'); //path to json file what will be response
-FakeServer.post('/bar', {LOL: 'LOL'}); //
-FakeServer.del('/foo', {LOL: 'LOL'});
-FakeServer.put('/bar', {LOL: 'LOL'});
+const fakeServer = new FakeServer(8085);
 
-FakeServer.start();
+fakeServer.port = 8085; //default port is 4000
+fakeServer.get('/foo', './index.json'); //path to json file what will be response
+fakeServer.post('/bar', {LOL: 'LOL'}); //
+fakeServer.del('/foo', {LOL: 'LOL'});
+fakeServer.put('/bar', {LOL: 'LOL'});
 
-console.log(FakeServer.getGetResult('/foo')); 
+fakeServer.start();
+
+console.log(fakeServer.getGetResult('/foo')); 
 //output  { called: false, callCount: 0, method: 'GET' }
 //curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:8085/bar
 //two times use curl and after
 setTimeout(() => {
-  console.log(FakeServer.getPostResult('/bar'));
-  FakeServer.stop();
-  FakeServer.restore();
+  console.log(fakeServer.getPostResult('/bar'));
+  fakeServer.stop();
+  fakeServer.restore();
 }, 10000);
 //{ calledArgs:
 //   [ { key1: 'value1', key2: 'value2' },
@@ -43,8 +45,7 @@ setTimeout(() => {
 
 methods | args
 --- | ---
-**`port`** | setter, any or number, default is 4000
-**`responseFormat`** | `string` 'text' or 'json' (default json)
+**`constructor(port, responseFormat)`** | port, any or `number`, default is 4000 , `string` 'text' or 'json' (default json)
 **`get(path, response)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json file or string response
 **`post(path, response)`** | path: `string` example: '/foo'; response: `object`or `string` - path to json file or string response
 **`del(path, response)`** | path: `string` example: '/foo'; response: `object`  or `string` - path to json file or string response
