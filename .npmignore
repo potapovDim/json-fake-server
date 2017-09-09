@@ -5,3 +5,4 @@ index.json
 node_modules
 specs
 examples
+.circleci
