@@ -1,16 +1,21 @@
-const FakeServer = require('./index');
-
-FakeServer.stop()
-FakeServer.port = 8085;
-FakeServer.get('/lol', './index.json');
-FakeServer.post('/xxx', { LOL: 'LOL' });
-FakeServer.post('/new', { LOLNEW: 'LOLNEW' });
-FakeServer.start();
+const FakeServer = require('../index');
 
 
-console.log(FakeServer.getGetResult('/lol'));
-console.log(FakeServer.getPostResult('/xxx'));
+const fakeServer = new FakeServer(8085)
+
+
+fakeServer.stop()
+fakeServer.port = 8085;
+fakeServer.get('/lol', '../index.json');
+fakeServer.post('/xxx', { LOL: 'LOL' });
+fakeServer.post('/new', { LOLNEW: 'LOLNEW' });
+fakeServer.start();
+
+
+console.log(fakeServer.getGetResult('/lol'));
+console.log(fakeServer.getPostResult('/xxx'));
 setTimeout(() => {
-  console.log(FakeServer.getPostResult('/xxx'))
-  FakeServer.stop();
-}, 100);
+  console.log(fakeServer.getPostResult('/xxx'))
+  fakeServer.stop();
+  fakeServer.restore();
+}, 10000);
