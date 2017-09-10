@@ -1,12 +1,11 @@
 const FakeServer = require('../index');
 
-
 const fakeServer = new FakeServer(8085)
-
 
 fakeServer.stop()
 fakeServer.port = 8085;
 fakeServer.get('/lol', '../index.json');
+fakeServer.put('/lol', '../index.json');
 fakeServer.post('/xxx', { LOL: 'LOL' });
 fakeServer.post('/new', { LOLNEW: 'LOLNEW' });
 fakeServer.start();
