@@ -23,6 +23,7 @@ fakeServer.get('/foo', './index.json'); //path to json file what will be respons
 fakeServer.post('/bar', {LOL: 'LOL'}); //
 fakeServer.del('/foo', {LOL: 'LOL'});
 fakeServer.put('/bar', {LOL: 'LOL'});
+fakeServer.post('/xxx', { LOL: 'LOL' }, {error: 'SUPER CUSTOM ERROR'}, true, {a: 'a'});
 
 fakeServer.start();
 
@@ -30,11 +31,16 @@ console.log(fakeServer.getGetResult('/foo'));
 //output  { called: false, callCount: 0, method: 'GET' }
 //curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:8085/bar
 //two times use curl and after
+//curl -d '{"a": "a"}' -H "Content-Type: application/json" -X POST http://localhost:8085/xxx
+//response will be {"LOL":"LOL"}
+//curl -d '{"a": "1"}' -H "Content-Type: application/json" -X POST http://localhost:8085/xxx
+//response will be {"error":"SUPER CUSTOM ERROR"}
+
 setTimeout(() => {
   console.log(fakeServer.getPostResult('/bar'));
   fakeServer.stop();
   fakeServer.restore();
-}, 10000);
+}, 15000);
 //{ calledArgs:
 //   [ { key1: 'value1', key2: 'value2' },
 //     { key1: 'value1', key2: 'value2' } ],
@@ -44,12 +50,12 @@ setTimeout(() => {
 ```
 
 methods | args
---- | ---
+--- | --- 
 **`constructor(port, responseFormat)`** | port, any or `number`, default is 4000 , `string` 'text' or 'json' (default json)
-**`get(path, response)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json file or string response
-**`post(path, response)`** | path: `string` example: '/foo'; response: `object`or `string` - path to json file or string response
-**`del(path, response)`** | path: `string` example: '/foo'; response: `object`  or `string` - path to json file or string response
-**`put(path, response)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json file or string response
+**`get(path, response, errorResponse, assertRequestBody, requestBody)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json file or string response, three last args is optiona, if you want own response error errorResponse `object`, assertRequestBody `bool` if true your response body will be assert equal with last arg requestBody `object` 
+**`post(path, response, errorResponse, assertRequestBody, requestBody)`** | path: `string` example: '/foo'; response: `object`or `string` - path to json file or string response, three last args is optiona, if you want own response error errorResponse `object`, assertRequestBody `bool` if true your response body will be assert equal with last arg requestBody `object` 
+**`del(path, response, errorResponse, assertRequestBody, requestBody)`** | path: `string` example: '/foo'; response: `object`  or `string` - path to json file or string response, three last args is optiona, if you want own response error errorResponse `object`, assertRequestBody `bool` if true your response body will be assert equal with last arg requestBody `object` 
+**`put(path, response, errorResponse, assertRequestBody, requestBody)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json file or string response, three last args is optiona, if you want own response error errorResponse `object`, assertRequestBody `bool` if true your response body will be assert equal with last arg requestBody `object` 
 **`start()`** | any args
 **`getDelResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
 **`getPutResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj

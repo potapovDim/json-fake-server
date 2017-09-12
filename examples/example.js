@@ -6,7 +6,7 @@ fakeServer.stop()
 fakeServer.port = 8085;
 fakeServer.get('/lol', '../index.json');
 fakeServer.put('/lol', '../index.json');
-fakeServer.post('/xxx', { LOL: 'LOL' });
+fakeServer.post('/xxx', { LOL: 'LOL' }, {error: 'SUPER CUSTOM ERROR'}, true, {a: 'a'});
 fakeServer.post('/new', { LOLNEW: 'LOLNEW' });
 fakeServer.start();
 

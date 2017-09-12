@@ -1,6 +1,6 @@
 {
     "name": "mock-backend-rest",
-    "version": "0.0.16-d",
+    "version": "0.0.19",
     "description": "simple pure node http server",
     "main": "index.js",
     "scripts": {
