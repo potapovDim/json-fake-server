@@ -1,5 +1,5 @@
 {
-    "name": "mock-backend-rest",
+    "name": "test-fake-server",
     "version": "1.0.20",
     "description": "simple pure node http server",
     "main": "index.js",

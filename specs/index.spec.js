@@ -4,11 +4,12 @@ const FakeServer = require('../lib');
 
 
 describe('FakeServer', () => {
-  let server = null
+  let server = null;
   beforeEach(() => {
     server = new FakeServer(3535)
     server.get('/lol', { LOL: 'LOL' });
     server.put('/lol', { lol1: 'lol1' });
+    server.put('https://weblium.com', { WEBLIUM: 'WEBLIUM' });
     server.post('/xxx', { LOLXXX: 'LOLXX' }, { error: 'SUPER CUSTOM ERROR' }, true, { a: 'a' });
     server.post('/ggg', { LOLGGG: 'LOLGGG' });
     server.post('/new', { LOLNEW: 'LOLNEW' });
