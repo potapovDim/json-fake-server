@@ -21,6 +21,7 @@ const fakeServer = new FakeServer(8085);
 fakeServer.port = 8085; //default port is 4000
 fakeServer.get('/foo', './index.json'); //path to json file what will be response
 fakeServer.post('/bar', {LOL: 'LOL'}); //
+fakeServer.get('http://lol.com', { WEBLIUM_HTTP: 'WEBLIUM_HTTP' });
 fakeServer.del('/foo', {LOL: 'LOL'});
 fakeServer.put('/bar', {LOL: 'LOL'});
 fakeServer.post('/xxx', { LOL: 'LOL' }, {error: 'SUPER CUSTOM ERROR'}, true, {a: 'a'});
@@ -33,6 +34,8 @@ console.log(fakeServer.getGetResult('/foo'));
 //two times use curl and after
 //curl -d '{"a": "a"}' -H "Content-Type: application/json" -X POST http://localhost:8085/xxx
 //response will be {"LOL":"LOL"}
+//curl -d '{"a": "1"}' -H "Content-Type: application/json" -X POST http://localhost:8085/xxx
+//response will be {"error":"SUPER CUSTOM ERROR"}
 //curl -d '{"a": "1"}' -H "Content-Type: application/json" -X POST http://localhost:8085/xxx
 //response will be {"error":"SUPER CUSTOM ERROR"}
 
@@ -67,5 +70,5 @@ methods | args
 
 ## Improvement plan
  * [x] Stop FakeServer
- * [ ] Mock request for any url
+ * [x] Mock request for any url (partly) (make for http, and https)
  * [ ] Read response fron any file, and any format
