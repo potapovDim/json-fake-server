@@ -30,6 +30,11 @@ describe('FakeServer', () => {
     const result = await fetch('http://localhost:3535/lol');
     expect(result.status).to.eql(200);
     expect(await result.json()).to.eql({ LOL: 'LOL' });
+    const callResult = server.getGetResult('/lol');
+    expect(callResult.called).to.eql(true)
+    expect(callResult.callCount).to.eql(1)
+    expect(callResult.calledArgs).to.eql([])
+    expect(callResult.method).to.eql('GET')
   });
   it('get negative', async () => {
     {
@@ -45,9 +50,15 @@ describe('FakeServer', () => {
   });
   it('put ', async () => {
     {
-      const result = await fetch('http://localhost:3535/lol', { method: 'PUT' });
+      const result = await fetch('http://localhost:3535/lol', { method: 'PUT', body: JSON.stringify({a: 'a'}) });
       expect(result.status).to.eql(200);
       expect(await result.json()).to.eql({ lol1: 'lol1' });
+      const callResult = server.getPutResult('/lol');
+      expect(callResult.called).to.eql(true)
+      expect(callResult.callCount).to.eql(1)
+      expect(callResult.calledArgs).to.eql([{a: 'a'}])
+      expect(callResult.method).to.eql('PUT')
+      expect(callResult.calledWithArg({a: 'a'})).to.eql(true)
     }
   });
   it('put negative', async () => {

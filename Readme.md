@@ -41,6 +41,11 @@ console.log(fakeServer.getGetResult('/foo'));
 
 setTimeout(() => {
   console.log(fakeServer.getPostResult('/bar'));
+
+
+  const callResult = fakeServer.getPostResult('/bar')
+  callResult.calledWithArg({key1:"value1", key2:"value2"}) // true
+  callResult.calledWithArg({key1:"value1"}) // false
   fakeServer.stop();
   fakeServer.restore();
 }, 15000);
@@ -66,6 +71,7 @@ methods | args
 **`getPostResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
 **`stop()`** | any args, if server not started - will get message, after stop you can get actions results etc
 **`restore()`** | any args, server to initial conditions, if server runned it method stop it
+**`calledWithArg(arg)`** | called from result of action, arg `object ` return true if you call this path with arg 
 ## don`t need any dependencies
 
 ## Improvement plan
