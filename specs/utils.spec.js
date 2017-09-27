@@ -39,7 +39,8 @@ describe('util', () => {
       calledArgs: []
     }])).to.eql({
       method: 'TEST',
-      calledArgs: []
+      calledArgs: [],
+      path: '/a'
     })
   });
 });
