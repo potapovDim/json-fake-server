@@ -15,9 +15,11 @@ describe('FakeServer', () => {
     server.post('/new', { LOLNEW: 'LOLNEW' });
     server.del('/nnn', { NNN: 'NNN' });
     server.start();
+    expect(server.runned).to.eql(true);
   });
   afterEach(() => {
     server.restore();
+    expect(server.runned).to.eql(false);
   });
   it('weblium', async () => {
     const resp_http = await fetch('https://lol.com');
