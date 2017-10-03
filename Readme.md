@@ -9,12 +9,12 @@
 
 ## Install
 ```sh
-npm install -SD mock-backend-rest
+npm install -SD test-fake-server
 ```
 
 ```js
 
-const FakeServer = require('mock-backend-rest');
+const FakeServer = require('test-fake-server');
 
 const fakeServer = new FakeServer(8085);
 
