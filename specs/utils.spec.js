@@ -5,7 +5,8 @@ const {
   parseJson,
   killServer,
   getCurrentAction
-} = require('../lib/util')
+} = require('../lib/util');
+const deepEqual = require('../lib/equalObj');
 
 describe('util', () => {
   it('parseJson', () => {
@@ -27,12 +28,12 @@ describe('util', () => {
       path: '/a',
       method: 'TEST1',
       calledArgs: []
-    }])).to.eql({})
+    }])).to.eql({});
     expect(getCurrentAction('/a','TEST', [{
       path: '/b',
       method: 'TEST',
       calledArgs: []
-    }])).to.eql({})
+    }])).to.eql({});
     expect(getCurrentAction('/a','TEST', [{
       path: '/a',
       method: 'TEST',
@@ -41,6 +42,13 @@ describe('util', () => {
       method: 'TEST',
       calledArgs: [],
       path: '/a'
-    })
+    });
   });
+  it('deepEqual', () => {
+    expect(deepEqual({}, {})).to.eql(true)
+    expect(deepEqual({}, [])).to.eql(false)
+    expect(deepEqual([], {})).to.eql(false)
+    expect(deepEqual([], '')).to.eql(false)
+    expect(deepEqual('', [])).to.eql(false)
+  })
 });
