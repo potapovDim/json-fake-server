@@ -6,3 +6,4 @@ node_modules
 specs
 examples
 .circleci
+index.html
