@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+'use strict';
+
+process.title = 'test-fake-server';
+
+require('../lib/lite-server')();
 const FakeServer = require('../index');
 const fakeServer = new FakeServer()//.serveStatic()
 fakeServer.serveStatic()
