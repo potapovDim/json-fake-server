@@ -1,6 +1,6 @@
 {
     "name": "test-fake-server",
-    "version": "1.1.30",
+    "version": "1.1.31",
     "description": "simple pure node http server",
     "main": "index.js",
     "scripts": {
@@ -17,8 +17,12 @@
         "REST",
         "API",
         "MOCK",
-        "MOCK-BACKEND"
+        "MOCK-BACKEND",
+        "STATIC-SERVER"
     ],
+    "bin": {
+        "test-fake-server": "./bin/test-fake-server"
+    },
     "author": "potapovDim",
     "license": "ISC",
     "bugs": {

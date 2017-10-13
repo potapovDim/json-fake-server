@@ -4,13 +4,19 @@
 * You can start fake server
 * Mock some response (GET, POST, PUT, DELETE), if you need big response - can read it from JSON file
 * Stop fake server
+* Or run static 
 
-<img src="./screen.png" width="550"/>
 
 ## Install
 ```sh
-npm install -SD test-fake-server
+npm install -SD test-fake-server || npm i -g test-fake-server
 ```
+
+<img src="./screen.png" width="550"/>
+
+"dev": "test-fake-server" in package.json scripts section
+npm run dev
+
 
 ```js
 
