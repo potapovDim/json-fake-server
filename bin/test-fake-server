@@ -2,8 +2,13 @@
 'use strict';
 
 process.title = 'test-fake-server';
+let port = undefined
+try{
+  port = Number(process.argv.slice(2)[0])
+  const FakeServer = require('../index');
+  const fakeServer = new FakeServer()//.serveStatic()
+  fakeServer.serveStatic()
+} catch (e) {
+  console.error(e.message)
+}
 
-require('../lib/lite-server')();
-const FakeServer = require('../index');
-const fakeServer = new FakeServer()//.serveStatic()
-fakeServer.serveStatic()

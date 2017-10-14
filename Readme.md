@@ -1,21 +1,24 @@
 #Fork and improve
 ## Usage
 
-* You can start fake server
-* Mock some response (GET, POST, PUT, DELETE), if you need big response - can read it from JSON file
+* Mock some response (GET, POST, PUT, DELETE), if you need big response - can read it from JSON file\
+* Start 
+* Assert rout call results
 * Stop fake server
 * Or run static 
-
 
 ## Install
 ```sh
 npm install -SD test-fake-server || npm i -g test-fake-server
 ```
 
-<img src="./screen.png" width="550"/>
+```json
+"dev": "test-fake-server" 
+```
 
-"dev": "test-fake-server" in package.json scripts section
-npm run dev
+npm run dev 5678(port)
+
+<img src="./screen.png" width="550"/>
 
 
 ```js
