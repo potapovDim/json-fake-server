@@ -13,10 +13,13 @@ npm install -SD test-fake-server || npm i -g test-fake-server
 ```
 
 ```json
-"dev": "test-fake-server" 
+ "scripts": {
+       "dev": "test-fake-server" 
+    }
 ```
-
-npm run dev 5678(port)
+```sh
+npm run dev 5678 #port
+```
 
 <img src="./screen.png" width="550"/>
 
