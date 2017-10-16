@@ -21,7 +21,7 @@ describe('FakeServer', () => {
     server.restore();
     expect(server.runned).to.eql(false);
   });
-  it('weblium', async () => {
+  it('github', async () => {
     const resp_http = await fetch('https://lol.com');
     const resp1 = await fetch('https://github.com');
     expect(resp_http.status).to.eql(200);
