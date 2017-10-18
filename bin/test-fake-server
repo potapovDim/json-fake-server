@@ -6,7 +6,7 @@ let port = undefined
 try{
   port = Number(process.argv.slice(2)[0])
   const FakeServer = require('../index');
-  const fakeServer = new FakeServer()//.serveStatic()
+  const fakeServer = new FakeServer()
   fakeServer.serveStatic()
 } catch (e) {
   console.error(e.message)

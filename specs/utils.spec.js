@@ -13,15 +13,6 @@ describe('util', () => {
     expect(parseJson('{"a": "a"}')).to.eql({a: 'a'});
     expect(parseJson({"a": "a"})).to.eql(null);
   });
-  it('formResult' ,() => {
-    expect(formResult({})).to.eql({});
-    expect(formResult({
-      path: 'a'
-    })).to.eql({});
-    expect(formResult({
-      a: 'a'
-    })).to.eql({a: 'a'});
-  });
   it('getCurrentAction', () => {
     expect(getCurrentAction('','', [])).to.eql({})
     expect(getCurrentAction('/a','TEST', [{
@@ -40,8 +31,7 @@ describe('util', () => {
       calledArgs: []
     }])).to.eql({
       method: 'TEST',
-      calledArgs: [],
-      path: '/a'
+      calledArgs: []
     });
   });
   it('deepEqual', () => {
