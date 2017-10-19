@@ -10,6 +10,7 @@ describe('FakeServer', () => {
     server.get('/lol', { LOL: 'LOL' });
     server.put('/lol', { lol1: 'lol1' });
     server.get('https://lol.com', { LOL_COM: 'LOL_COM' });
+    server.get('/html', '<div></div>')
     server.post('/xxx', { LOLXXX: 'LOLXX' }, { error: 'SUPER CUSTOM ERROR' }, true, { a: 'a' });
     server.post('/ggg', { LOLGGG: 'LOLGGG' });
     server.post('/new', { LOLNEW: 'LOLNEW' });
