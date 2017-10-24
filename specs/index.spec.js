@@ -7,14 +7,14 @@ describe('FakeServer', () => {
   let server = null;
   beforeEach(() => {
     server = new FakeServer(3535)
-    server.get('/lol', { LOL: 'LOL' });
-    server.put('/lol', { lol1: 'lol1' });
-    server.get('https://lol.com', { LOL_COM: 'LOL_COM' });
-    server.get('/html', '<div></div>')
-    server.post('/xxx', { LOLXXX: 'LOLXX' }, { error: 'SUPER CUSTOM ERROR' }, true, { a: 'a' });
-    server.post('/ggg', { LOLGGG: 'LOLGGG' });
-    server.post('/new', { LOLNEW: 'LOLNEW' });
-    server.del('/nnn', { NNN: 'NNN' });
+    server.get({ path: '/lol', response: { LOL: 'LOL' } });
+    server.put({ path: '/lol', response: { lol1: 'lol1' } });
+    server.get({ path: 'https://lol.com', response: { LOL_COM: 'LOL_COM' } });
+    server.get({ path: '/html', response: '<div></div>' });
+    server.post({ path: '/xxx', response: { LOLXXX: 'LOLXX' }, errorResponse: { error: 'SUPER CUSTOM ERROR' }, assertRequestBody: true, requestBody: { a: 'a' } });
+    server.post({ path: '/ggg', response: { LOLGGG: 'LOLGGG' } });
+    server.post({ path: '/new', response: { LOLNEW: 'LOLNEW' } });
+    server.del({ path: '/nnn', response: { NNN: 'NNN' } });
     server.start();
     expect(server.runned).to.eql(true);
   });
@@ -26,7 +26,7 @@ describe('FakeServer', () => {
     const resp_http = await fetch('https://lol.com');
     const resp1 = await fetch('https://github.com');
     expect(resp_http.status).to.eql(200);
-    expect(await resp_http.json()).to.eql({LOL_COM: 'LOL_COM'});
+    expect(await resp_http.json()).to.eql({ LOL_COM: 'LOL_COM' });
     expect(resp1.status).to.eql(200)
   });
   it('get', async () => {
@@ -53,15 +53,15 @@ describe('FakeServer', () => {
   });
   it('put ', async () => {
     {
-      const result = await fetch('http://localhost:3535/lol', { method: 'PUT', body: JSON.stringify({a: 'a'}) });
+      const result = await fetch('http://localhost:3535/lol?dsadas=dsadas', { method: 'PUT', body: JSON.stringify({ a: 'a' }) });
       expect(result.status).to.eql(200);
       expect(await result.json()).to.eql({ lol1: 'lol1' });
       const callResult = server.getPutResult('/lol');
       expect(callResult.called).to.eql(true)
       expect(callResult.callCount).to.eql(1)
-      expect(callResult.calledArgs).to.eql([{a: 'a'}])
+      expect(callResult.calledArgs).to.eql([{ a: 'a' }])
       expect(callResult.method).to.eql('PUT')
-      expect(callResult.calledWithArg({a: 'a'})).to.eql(true)
+      expect(callResult.calledWithArg({ a: 'a' })).to.eql(true)
     }
   });
   it('put negative', async () => {
