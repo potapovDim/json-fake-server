@@ -6,8 +6,7 @@
 * Assert rout call results
 * Stop fake server
 * Or run static 
-
-[Usage stats](https://img.shields.io/npm/dm/test-fake-server.svg?style=flat-square)
+[![npm downloads](https://img.shields.io/npm/dm/test-fake-server.svg?style=flat-square)]
 ## Install
 ```sh
 npm install -SD test-fake-server || npm i -g test-fake-server
