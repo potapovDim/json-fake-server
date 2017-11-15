@@ -61,7 +61,7 @@ describe('FakeServer', () => {
       expect(callResult.callCount).to.eql(1)
       expect(callResult.calledArgs).to.eql([{ a: 'a' }])
       expect(callResult.method).to.eql('PUT')
-      expect(callResult.calledWithArg({ a: 'a' })).to.eql(true)
+      expect(callResult.calledWithArgs({ a: 'a' })).to.eql(true)
     }
   });
   it('put negative', async () => {
