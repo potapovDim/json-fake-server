@@ -11,7 +11,14 @@ describe('FakeServer', () => {
     server.put({ path: '/lol', response: { lol1: 'lol1' } });
     server.get({ path: 'https://lol.com', response: { LOL_COM: 'LOL_COM' } });
     server.get({ path: '/html', response: '<div></div>' });
-    server.post({ path: '/xxx', response: { LOLXXX: 'LOLXX' }, errorResponse: { error: 'SUPER CUSTOM ERROR' }, assertRequestBody: true, requestBody: { a: 'a' } });
+    server.post({
+      path: '/xxx',
+      response: { LOLXXX: 'LOLXX' },
+      errorResponse: { error: 'SUPER CUSTOM ERROR' },
+      assertQuery: true,
+      assertRequestBody: true,
+      requestBody: { a: 'a' }
+    });
     server.post({ path: '/ggg', response: { LOLGGG: 'LOLGGG' } });
     server.post({ path: '/new', response: { LOLNEW: 'LOLNEW' } });
     server.del({ path: '/nnn', response: { NNN: 'NNN' } });
