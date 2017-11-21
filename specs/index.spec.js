@@ -17,6 +17,9 @@ describe('FakeServer', () => {
       errorResponse: { error: 'SUPER CUSTOM ERROR' },
       assertQuery: true,
       assertRequestBody: true,
+      assertQuery: true,
+      queryRequest: 'a=b&c=d',
+      responseQuery: { query: 'query' },
       requestBody: { a: 'a' }
     });
     server.post({ path: '/ggg', response: { LOLGGG: 'LOLGGG' } });
