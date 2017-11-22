@@ -14,17 +14,17 @@ describe('util', () => {
     expect(parseJson({"a": "a"})).to.eql(null);
   });
   it('getCurrentAction', () => {
-    expect(getCurrentAction('','', [])).to.eql({})
+    expect(getCurrentAction('','', [])).to.eql('Path didnt call')
     expect(getCurrentAction('/a','TEST', [{
       path: '/a',
       method: 'TEST1',
       calledArgs: []
-    }])).to.eql({});
+    }])).to.eql('Path didnt call');
     expect(getCurrentAction('/a','TEST', [{
       path: '/b',
       method: 'TEST',
       calledArgs: []
-    }])).to.eql({});
+    }])).to.eql('Path didnt call');
     expect(getCurrentAction('/a','TEST', [{
       path: '/a',
       method: 'TEST',

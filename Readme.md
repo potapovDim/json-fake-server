@@ -1,18 +1,19 @@
-#Fork and improve
 ## Usage
 
-* Mock some response (GET, POST, PUT, DELETE), if you need big response - can read it from JSON file\
-* Start 
-* Assert rout call results
-* Stop fake server
+* Build simple fake server with routing, query, assert request bodies etc
+* GET, POST, PUT, DELETE, supported methods, custom response status, if you need large response - can read it from JSON file
 * Or run static
-* Npm downloads ![npm downloads](https://img.shields.io/npm/dm/test-fake-server.svg?style=flat-square)
+
+![npm downloads](https://img.shields.io/npm/dm/test-fake-server.svg?style=flat-square)
 
 ## Install
 ```sh
 npm install -SD test-fake-server || npm i -g test-fake-server
 ```
 
+If serve static run 'test-fake-serve 5678' in dir where index.html
+
+Or in package.json file
 ```json
  "scripts": {
        "dev": "test-fake-server" 
@@ -22,72 +23,107 @@ npm install -SD test-fake-server || npm i -g test-fake-server
 npm run dev 5678 #port
 ```
 
-<img src="./screen.png" width="550"/>
 
+# Base example
 
 ```js
 
 const FakeServer = require('test-fake-server');
 
-const fakeServer = new FakeServer(8085);
+const fakeServer = new FakeServer(8085)
+fakeServer.post({
+  path: '/foo',
+  successStatus: 200,
+  errorStatus: 401,
+  errorResponse: { error: 'ERROR' },
+  queryAndBodyResponse: { foo: 'foo' },
+  assertQueryAndBody: true,
+  requestBody: { a: 'a' },
+  requestQuery: 'a=b&c=d'
+});
 
-fakeServer.port = 8085; //default port is 4000
-fakeServer.get('/foo', './index.json'); //path to json file what will be response
-fakeServer.post('/bar', {LOL: 'LOL'}); //
-fakeServer.get('http://lol.com', { WEBLIUM_HTTP: 'WEBLIUM_HTTP' });
-fakeServer.del('/foo', {LOL: 'LOL'});
-fakeServer.put('/bar', {LOL: 'LOL'});
-fakeServer.post('/xxx', { LOL: 'LOL' }, {error: 'SUPER CUSTOM ERROR'}, true, {a: 'a'});
+fakeServer.get({ path: '/bar', response: { bar: 'bar' } });
 
 fakeServer.start();
+//foo
+//curl -d '{"a": "a"}' -H "Content-Type: application/json" -X POST http://localhost:8085/foo?a=b&c=d
+//output {"foo":"foo"}
+//curl -d '{"a": "a"}' -H "Content-Type: application/json" -X POST http://localhost:8085/foo
+//output {"error":"ERROR"}
 
-console.log(fakeServer.getGetResult('/foo')); 
-//output  { called: false, callCount: 0, method: 'GET' }
-//curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:8085/bar
-//two times use curl and after
-//curl -d '{"a": "a"}' -H "Content-Type: application/json" -X POST http://localhost:8085/xxx
-//response will be {"LOL":"LOL"}
-//curl -d '{"a": "1"}' -H "Content-Type: application/json" -X POST http://localhost:8085/xxx
-//response will be {"error":"SUPER CUSTOM ERROR"}
-//curl -d '{"a": "1"}' -H "Content-Type: application/json" -X POST http://localhost:8085/xxx
-//response will be {"error":"SUPER CUSTOM ERROR"}
+//bar with base args every time will get {"bar": "bar"}
+//curl -H "Content-Type: application/json" -X GET http://localhost:8085/bar
+//output {"bar": "bar"}
+//curl -H "Content-Type: application/json" -X GET http://localhost:8085/bar?foo=bar
+//output {"bar": "bar"}
 
 setTimeout(() => {
-  console.log(fakeServer.getPostResult('/bar'));
-
-
-  const callResult = fakeServer.getPostResult('/bar')
-  callResult.calledWithArg({key1:"value1", key2:"value2"}) // true
-  callResult.calledWithArg({key1:"value1"}) // false
+  const fooCallResult = fakeServer.getPostResult('/foo');
+  console.log(fooCallResult)
+  /*
+   * fooCallResult type object
+   * props: {
+   *  called: bool 
+   *  callCount: number
+   *  method: string
+   *  calledWithArgs: func   
+   * }
+   */
+  fooCallResult.calledWithArgs({ a: 'a' }); //true
+  fooCallResult.calledWithArgs([{ a: 'a' }, { a: 'a' }]); //true
+  fooCallResult.calledWithArgs([{ a: 'a' }, { a: 'a' }, { b: 'b' }]); //false
   fakeServer.stop();
-  fakeServer.restore();
-}, 15000);
-//{ calledArgs:
-//   [ { key1: 'value1', key2: 'value2' },
-//     { key1: 'value1', key2: 'value2' } ],
-// called: true,
-// callCount: 2,
-// method: 'POST' }
+}, 20000);
 ```
-
+<!-- path string '/foo', '/bar' etc -->
 methods | args
 --- | --- 
 **`constructor(port, responseFormat)`** | port, any or `number`, default is 4000 , `string` 'text' or 'json' (default json)
-**`get(path, response, errorResponse, assertRequestBody, requestBody)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json file or string response, three last args is optiona, if you want own response error errorResponse `object`, assertRequestBody `bool` if true your response body will be assert equal with last arg requestBody `object` 
-**`post(path, response, errorResponse, assertRequestBody, requestBody)`** | path: `string` example: '/foo'; response: `object`or `string` - path to json file or string response, three last args is optiona, if you want own response error errorResponse `object`, assertRequestBody `bool` if true your response body will be assert equal with last arg requestBody `object` 
-**`del(path, response, errorResponse, assertRequestBody, requestBody)`** | path: `string` example: '/foo'; response: `object`  or `string` - path to json file or string response, three last args is optiona, if you want own response error errorResponse `object`, assertRequestBody `bool` if true your response body will be assert equal with last arg requestBody `object` 
-**`put(path, response, errorResponse, assertRequestBody, requestBody)`** | path: `string` example: '/foo'; response: `object` or `string` - path to json file or string response, three last args is optiona, if you want own response error errorResponse `object`, assertRequestBody `bool` if true your response body will be assert equal with last arg requestBody `object` 
+**`get(argObj)`** | [argObj](#argobj)  
+**`post(argObj)`** | [argObj](#argobj)  
+**`del(argObj)`** | [argObj](#argobj) 
+**`put(argObj)`** | [argObj](#argobj)  
 **`start()`** | any args
-**`getDelResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
-**`getPutResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
-**`getGetResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
-**`getPostResult(path)`** | path: `string` example '/foo', if server dont have action for this path return empty obj
-**`stop()`** | any args, if server not started - will get message, after stop you can get actions results etc
-**`restore()`** | any args, server to initial conditions, if server runned it method stop it
-**`calledWithArg(arg)`** | called from result of action, arg `object ` return true if you call this path with arg 
-## don`t need any dependencies
+**`getDelResult(path)`** | path: `string` example '/foo', return [calledActionObject](#calledactionobject), if server don`t have action, for this path return warning string
+**`getPutResult(path)`** | path: `string` example '/foo',  return [calledActionObject](#calledactionobject) ,if server dont have action for this path return warning string
+**`getGetResult(path)`** | path: `string` example '/foo',  return [calledActionObject](#calledactionobject) ,if server dont have action for this path return warning string
+**`getPostResult(path)`** | path: `string` example '/foo',  return [calledActionObject](#calledactionobject) ,if server dont have action for this pathreturn warning string
+**`stop()`** | stop server, but you can find calls
+**`restore()`** | back server to initial state (clear all pathes, args etc)
+**`calledWithArg(arg)`** | called from result of action, arg `object ` or `array` return true if you call this path with arg or args 
+
+## calledActionObject
+```js
+  calledActionObject = {
+   called: bool // true if rout with method is called
+   callCount: number // default 0, ++ after call
+   method: string // one of 'POST', 'GET', 'PUT', 'DELETE'
+   calledWithArgs: func 
+  }
+```
+## argObj
+```js
+const argObf = {
+  path: string, // `/foo` or `foo`
+  response: object, //response if success call to route 
+  errorResponse: object, //error response if not success call to route
+  requestBody: object, //needed if we shoul assert entered request body
+  assertQuery: bool, // if we want assert request query
+  assertRequestBody: bool, //if true will assert 'requestBody' prop with internal request body
+  assertQueryAndBody: bool, //if true will assert 'requestBody' and 'requestQuery' props whit internal request if true, will return response or 'queryAndBodyResponse' if it present
+  errorStatus: number, // error status what will be returned in error case, default 400
+  successStatus: number // success status what will be returned in success case , default 200
+
+  
+  /*errorResponse, requestBody, assertRequestBody, assertQuery, assertQueryAndBody, errorStatus, successStatus - are optional props
+  for more examples take a look examples or specs/*
+
+}
+```
+
 
 ## Improvement plan
  * [x] Stop FakeServer
  * [x] Mock request for any url (partly) (make for http, and https)
+ * [x] Add custom statuses
  * [ ] Read response fron any file, and any format
