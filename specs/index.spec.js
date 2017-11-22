@@ -4,7 +4,7 @@ const FakeServer = require('../lib');
 
 
 describe('FakeServer', () => {
-  describe.skip('REST', () => {
+  describe('REST', () => {
     let server = null;
     before(() => {
       server = new FakeServer(3535)

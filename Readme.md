@@ -75,14 +75,14 @@ setTimeout(() => {
   fakeServer.stop();
 }, 20000);
 ```
-path string '/foo', '/bar' etc
+<!-- path string '/foo', '/bar' etc -->
 methods | args
 --- | --- 
 **`constructor(port, responseFormat)`** | port, any or `number`, default is 4000 , `string` 'text' or 'json' (default json)
-**`get(argObj)`** |[argObj](#argobj)  
-**`post(argObj)`** |[argObj](#argobj)  
+**`get(argObj)`** | [argObj](#argobj)  
+**`post(argObj)`** | [argObj](#argobj)  
 **`del(argObj)`** | [argObj](#argobj) 
-**`put(argObj)`** |[argObj](#argobj)  
+**`put(argObj)`** | [argObj](#argobj)  
 **`start()`** | any args
 **`getDelResult(path)`** | path: `string` example '/foo', return [calledActionObject](#calledactionobject), if server don`t have action, for this path return warning string
 **`getPutResult(path)`** | path: `string` example '/foo',  return [calledActionObject](#calledactionobject) ,if server dont have action for this path return warning string
@@ -93,7 +93,7 @@ methods | args
 **`calledWithArg(arg)`** | called from result of action, arg `object ` or `array` return true if you call this path with arg or args 
 
 ## calledActionObject
-```
+```js
   calledActionObject = {
    called: bool // true if rout with method is called
    callCount: number // default 0, ++ after call
@@ -102,8 +102,23 @@ methods | args
   }
 ```
 ## argObj
-```
+```js
+const argObf = {
+  path: string, // `/foo` or `foo`
+  response: object, //response if success call to route 
+  errorResponse: object, //error response if not success call to route
+  requestBody: object, //needed if we shoul assert entered request body
+  assertQuery: bool, // if we want assert request query
+  assertRequestBody: bool, //if true will assert 'requestBody' prop with internal request body
+  assertQueryAndBody: bool, //if true will assert 'requestBody' and 'requestQuery' props whit internal request if true, will return response or 'queryAndBodyResponse' if it present
+  errorStatus: number, // error status what will be returned in error case, default 400
+  successStatus: number // success status what will be returned in success case , default 200
 
+  
+  /*errorResponse, requestBody, assertRequestBody, assertQuery, assertQueryAndBody, errorStatus, successStatus - are optional props
+  for more examples take a look examples or specs/*
+
+}
 ```
 
 
