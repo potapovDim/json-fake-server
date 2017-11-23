@@ -151,14 +151,136 @@ describe('FakeServer', () => {
         requestQuery: 'a=b&c=d',
         requestBody: { a: 'a' }
       });
+      server.get({
+        path: '/foo',
+        successStatus: 204,
+        errorStatus: 403,
+        response: { success: 1 },
+        assertQuery: true,
+        requestQuery: 'a=b&&c=d'
+      });
+      server.put({
+        path: 'bar',
+        assertRequestBody: true,
+        requestBody: { test: 'test' },
+        response: { success: 1 }
+      });
+      server.del({
+        path: 'foobar',
+        assertQuery: true,
+        assertRequestBody: true,
+        requestQuery: 'a=b&c=d',
+        response: { success: 1 },
+        requestBody: { a: 'a' }
+      })
       server.start();
+
       expect(server.runned).to.eql(true);
     });
     after(() => {
       server.restore();
       expect(server.runned).to.eql(false);
     });
-
+    it('get', async () => {
+      {
+        const result = await fetch('http://localhost:3535/foo');
+        expect(result.status).to.eql(403);
+        expect(await result.json()).to.eql({ error: 'api.notfound' });
+      }
+      {
+        const result = await fetch('http://localhost:3535/foo?a=b&&c=d');
+        expect(result.status).to.eql(202);
+        expect(await result.json()).to.eql({ success: 1 });
+      }
+    });
+    it('put', async () => {
+      {
+        const result = await fetch('http://localhost:3535/bar', { method: 'PUT', headers: { 'Content-Type': 'application/json' } });
+        expect(result.status).to.eql(400);
+      }
+      {
+        const result = await fetch('http://localhost:3535/bar', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ test: 'test' })
+        })
+        expect(result.status).to.eql(200);
+        expect(await result.json()).to.eql({ success: 1 });
+      }
+      {
+        const result = await fetch('http://localhost:3535/bar?a=b', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        expect(result.status).to.eql(400);
+        expect(await result.json()).to.eql({ error: 'api.notfound' });
+      }
+      {
+        const result = await fetch('http://localhost:3535/bar?a=b', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ test: 'test' })
+        });
+        expect(result.status).to.eql(200);
+        expect(await result.json()).to.eql({ success: 1 });
+      }
+    });
+    it('del', async () => {
+      {
+        const result = await fetch('http://localhost:3535/foobar', { method: 'DELETE' });
+        expect(result.status).to.eql(400);
+        expect(await result.json()).to.eql({ error: 'api.notfound' });
+      }
+      {
+        const result = await fetch('http://localhost:3535/foobar/?a=b', { method: 'DELETE' });
+        expect(result.status).to.eql(400);
+        expect(await result.json()).to.eql({ error: 'api.notfound' });
+      }
+      {
+        const result = await fetch('http://localhost:3535/foobar?a=b&c=d', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        expect(result.status).to.eql(200);
+        expect(await result.json()).to.eql({ success: 1 });
+      }
+      {
+        const result = await fetch('http://localhost:3535/foobar?a=b&c=d', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ a: 'a' })
+        });
+        expect(result.status).to.eql(200);
+        expect(await result.json()).to.eql({ success: 1 });
+      }
+      {
+        const result = await fetch('http://localhost:3535/foobar', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ a: 'a' })
+        });
+        expect(result.status).to.eql(200);
+        expect(await result.json()).to.eql({ success: 1 });
+      }
+      {
+        const result = await fetch('http://localhost:3535/foobar?a=1', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ a: 'a' })
+        });
+        expect(result.status).to.eql(200);
+        expect(await result.json()).to.eql({ success: 1 });
+      }
+      {
+        const result = await fetch('http://localhost:3535/foobar?a=b&c=d', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ b: 'b' })
+        });
+        expect(result.status).to.eql(200);
+        expect(await result.json()).to.eql({ success: 1 });
+      }
+    });
     it('post ', async () => {
       {
         const result = await fetch('http://localhost:3535/xxx', { method: 'POST' });
@@ -182,5 +304,5 @@ describe('FakeServer', () => {
         expect(await result.json()).to.eql({ main: 'main' });
       }
     });
-  })
+  });
 });
