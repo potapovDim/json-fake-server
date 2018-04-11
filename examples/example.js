@@ -42,5 +42,5 @@ setTimeout(() => {
   fooCallResult.calledWithArgs({ a: 'a' }); //true
   fooCallResult.calledWithArgs([{ a: 'a' }, { a: 'a' }]); //true
   fooCallResult.calledWithArgs([{ a: 'a' }, { a: 'a' }, { b: 'b' }]); //false
-  fakeServer.stop();
+  // fakeServer.stop();
 }, 20000);
