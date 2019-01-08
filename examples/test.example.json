@@ -1,0 +1,12 @@
+{
+  "port": 4444,
+  "api": [
+    {
+      "method": "POST",
+      "path": "/example",
+      "response": {
+        "example": "example"
+      }
+    }
+  ]
+}
