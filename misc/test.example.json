@@ -10,7 +10,15 @@
     },
     {
       "method": "GET",
-      "path": "/example",
+      "path": "/test/:id/resp",
+      "params_response": {
+        "id": {
+          "value": "testId",
+          "response": {
+            "testId": "testId"
+          }
+        }
+      },
       "response": {
         "example": "example GET"
       }
