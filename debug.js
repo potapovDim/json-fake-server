@@ -1,3 +1,3 @@
-const {get_routing_model} = require('./lib/json_routing_model')
+const FakeServer = require('./')
 
-console.log(get_routing_model())
+FakeServer({PORT: 8081, json_model_path: './misc/test.example.json'})
