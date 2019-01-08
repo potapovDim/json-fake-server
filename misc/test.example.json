@@ -10,12 +10,24 @@
     },
     {
       "method": "GET",
-      "path": "/test/:id/resp",
+      "path": "/user/:user/id/:id",
       "params_response": {
         "id": {
           "value": "testId",
           "response": {
             "testId": "testId"
+          }
+        },
+        "user": {
+          "value": "testUser",
+          "response": {
+            "testId": "testId"
+          }
+        },
+        "response": {
+          "full_params_equal": {
+            "username": "test user1",
+            "password": "test password"
           }
         }
       },
