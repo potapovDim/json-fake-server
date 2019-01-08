@@ -5,7 +5,14 @@
       "method": "POST",
       "path": "/example",
       "response": {
-        "example": "example"
+        "example": "example POST"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/example",
+      "response": {
+        "example": "example GET"
       }
     }
   ]
