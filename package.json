@@ -29,6 +29,7 @@
         "url": "https://github.com/potapovDim/mock-backend-rest/issues"
     },
     "dependencies": {
+        "ajv": "^6.6.2",
         "koa-bearer-token": "^1.0.0",
         "koa-bodyparser": "^4.2.1",
         "koa-cors": "0.0.16",
