@@ -1,18 +1,17 @@
 const authorization = {
   "type": "headers", // headers, body, query
   "indicator": "token", // optional will be used
-  "value": "test_token"
+
 },
 
 const one_req_res_model = {
   "method": "GET",
   "path": "/user/:user/id/:id",
 
-  "authorization": true, // optional default value is falve
-
   "authorization": {
+    "token": "test_token",
     "status": 404,
-    "body": {"unauthorized": true}
+    "unauthorized": {"unauthorized": true}
   },
 
   "params_response": {
