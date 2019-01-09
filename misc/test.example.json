@@ -1,11 +1,21 @@
 {
   "port": 4444,
+  "authorization": {
+    "type": "headers"
+  },
   "api": [
     {
-      "method": "POST",
+      "method": "GET",
       "path": "/example",
       "response": {
         "example": "example POST"
+      },
+      "authorization": {
+        "token": "test_token",
+        "status": 404,
+        "unauthorized": {
+          "unauthorized": true
+        }
       }
     },
     {

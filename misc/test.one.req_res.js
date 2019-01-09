@@ -2,7 +2,7 @@ const authorization = {
   "type": "headers", // headers, body, query
   "indicator": "token", // optional will be used
 
-},
+}
 
 const one_req_res_model = {
   "method": "GET",
