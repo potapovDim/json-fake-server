@@ -15,12 +15,14 @@ const one_req_res_model = {
   },
 
   "response_from_url": {
+    "req_body": {},
+    "req_headers": {},
+    "status": 201,
     "url": "http://localhost:8888/user/:user", // example
     "merge_with": {
       "test_merge": "test"
     }
   },
-
 
   "params_response": {
     "value": "testId",
