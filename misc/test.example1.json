@@ -1,0 +1,12 @@
+{
+  "port": 8888,
+  "api": [
+    {
+      "method": "GET",
+      "path": "/user",
+      "response": {
+        "user_response_success": "user_response_success"
+      }
+    }
+  ]
+}

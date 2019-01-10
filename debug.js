@@ -1,4 +1,3 @@
 const FakeServer = require('./')
 
-const server = FakeServer({PORT: 8081, json_model_path: './misc/test.example.json'})
-
+const server = FakeServer({json_model_path: './misc/test.example.json'})
