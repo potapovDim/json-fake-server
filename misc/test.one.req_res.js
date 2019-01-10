@@ -18,6 +18,7 @@ const one_req_res_model = {
     "req_body": {},
     "req_headers": {},
     "status": 201,
+    "method": "GET",
     "url": "http://localhost:8888/user/:user", // example
     "merge_with": {
       "test_merge": "test"
