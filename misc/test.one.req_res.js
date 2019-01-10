@@ -14,6 +14,14 @@ const one_req_res_model = {
     "unauthorized": {"unauthorized": true}
   },
 
+  "response_from_url": {
+    "url": "http://localhost:8888/user/:user", // example
+    "merge_with": {
+      "test_merge": "test"
+    }
+  },
+
+
   "params_response": {
     "value": "testId",
     "id": {
