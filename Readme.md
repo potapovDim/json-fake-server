@@ -1,8 +1,7 @@
 ## Usage
 
-* Build simple fake server with routing, query, assert request bodies etc
-* GET, POST, PUT, DELETE, supported methods, custom response status, if you need large response - can read it from JSON file
-* Or run static
+* Build simple fake server with routing, params, static content
+* GET, POST, PUT, DELETE, supported methods, status, bodies etc
 
 ![npm downloads](https://img.shields.io/npm/dm/test-fake-server.svg?style=flat-square)
 
@@ -11,119 +10,293 @@
 npm install -SD test-fake-server || npm i -g test-fake-server
 ```
 
-If serve static run 'test-fake-serve 5678' in dir where index.html
-
-Or in package.json file
+## Example
+./test_model.json
 ```json
- "scripts": {
-       "dev": "test-fake-server" 
+{
+  "port": 8888,
+  "api": [
+    {
+      "method": "GET",
+      "path": "/user",
+      "response": {
+        "user_name": "test user",
+        "user_phone: "test phone"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/user",
+      "response": {"created": true}
     }
-```
-```sh
-npm run dev 5678 #port
-```
-
-
-# Base example
-
-```js
-
-const FakeServer = require('test-fake-server');
-
-const fakeServer = new FakeServer(8085)
-fakeServer.post({
-  path: '/foo',
-  successStatus: 200,
-  errorStatus: 401,
-  errorResponse: { error: 'ERROR' },
-  queryAndBodyResponse: { foo: 'foo' },
-  assertQueryAndBody: true,
-  requestBody: { a: 'a' },
-  requestQuery: 'a=b&c=d'
-});
-
-fakeServer.get({ path: '/bar', response: { bar: 'bar' } });
-
-fakeServer.start();
-//foo
-//curl -d '{"a": "a"}' -H "Content-Type: application/json" -X POST http://localhost:8085/foo?a=b&c=d
-//output {"foo":"foo"}
-//curl -d '{"a": "a"}' -H "Content-Type: application/json" -X POST http://localhost:8085/foo
-//output {"error":"ERROR"}
-
-//bar with base args every time will get {"bar": "bar"}
-//curl -H "Content-Type: application/json" -X GET http://localhost:8085/bar
-//output {"bar": "bar"}
-//curl -H "Content-Type: application/json" -X GET http://localhost:8085/bar?foo=bar
-//output {"bar": "bar"}
-
-setTimeout(() => {
-  const fooCallResult = fakeServer.getPostResult('/foo');
-  console.log(fooCallResult)
-  /*
-   * fooCallResult type object
-   * props: {
-   *  called: bool 
-   *  callCount: number
-   *  method: string
-   *  calledWithArgs: func   
-   * }
-   */
-  fooCallResult.calledWithArgs({ a: 'a' }); //true
-  fooCallResult.calledWithArgs([{ a: 'a' }, { a: 'a' }]); //true
-  fooCallResult.calledWithArgs([{ a: 'a' }, { a: 'a' }, { b: 'b' }]); //false
-  fakeServer.stop();
-}, 20000);
-```
-<!-- path string '/foo', '/bar' etc -->
-methods | args
---- | --- 
-**`constructor(port, responseFormat)`** | port, any or `number`, default is 4000 , `string` 'text' or 'json' (default json)
-**`get(argObj)`** | [argObj](#argobj)  
-**`post(argObj)`** | [argObj](#argobj)  
-**`del(argObj)`** | [argObj](#argobj) 
-**`put(argObj)`** | [argObj](#argobj)  
-**`start()`** | any args
-**`getDelResult(path)`** | path: `string` example '/foo', return [calledActionObject](#calledactionobject), if server don`t have action, for this path return warning string
-**`getPutResult(path)`** | path: `string` example '/foo',  return [calledActionObject](#calledactionobject) ,if server dont have action for this path return warning string
-**`getGetResult(path)`** | path: `string` example '/foo',  return [calledActionObject](#calledactionobject) ,if server dont have action for this path return warning string
-**`getPostResult(path)`** | path: `string` example '/foo',  return [calledActionObject](#calledactionobject) ,if server dont have action for this pathreturn warning string
-**`stop()`** | stop server, but you can find calls
-**`restore()`** | back server to initial state (clear all pathes, args etc)
-**`calledWithArg(arg)`** | called from result of action, arg `object ` or `array` return true if you call this path with arg or args 
-
-## calledActionObject
-```js
-  calledActionObject = {
-   called: bool // true if rout with method is called
-   callCount: number // default 0, ++ after call
-   method: string // one of 'POST', 'GET', 'PUT', 'DELETE'
-   calledWithArgs: func 
-  }
-```
-## argObj
-```js
-const argObf = {
-  path: string, // `/foo` or `foo`
-  response: object, //response if success call to route 
-  errorResponse: object, //error response if not success call to route
-  requestBody: object, //needed if we shoul assert entered request body
-  assertQuery: bool, // if we want assert request query
-  assertRequestBody: bool, //if true will assert 'requestBody' prop with internal request body
-  assertQueryAndBody: bool, //if true will assert 'requestBody' and 'requestQuery' props whit internal request if true, will return response or 'queryAndBodyResponse' if it present
-  errorStatus: number, // error status what will be returned in error case, default 400
-  successStatus: number // success status what will be returned in success case , default 200
-
-  
-  /*errorResponse, requestBody, assertRequestBody, assertQuery, assertQueryAndBody, errorStatus, successStatus - are optional props
-  for more examples take a look examples or specs/*
-
+  ]
 }
 ```
+mocha test example
+
+```js
+const fakeServer = require('test-fake-server')
+const fetch = require('node-fetch')
+const {expect} = require('chai')
+
+describe('Example', () => {
+  let server = null
+  before(() => {
+    const model = require('./test_model.json')
+    server = fakeServer(model)
+  })
+  after(() => {
+    server.close()
+  })
+  it('test post user', asyn () => {
+    const responseBody = await fetch('http://localhost:8888/user', {method: 'POST'}).then((res) => res.json())
+    expect(responseBody.created).to.eql(true)
+  })
+  it('test get user', async () => {
+    const responseBody = await fetch('http://localhost:8888/user').then((res) => res.json())
+    expect(responseBody.user_name).to.eql('test user')
+    expect(responseBody.user_phone).to.eql('test phone')
+  })
+})
+```
+
+## Model Structure
+
+* [httpmethods](#http)
+* [authorization](#authorization)
+* [params](#params)
+* [file](#file)
 
 
-## Improvement plan
- * [x] Stop FakeServer
- * [x] Mock request for any url (partly) (make for http, and https)
- * [x] Add custom statuses
- * [ ] Read response fron any file, and any format
+## HTTP
+```js
+const fakeServer = require('test-fake-server')
+const fetch = require('node-fetch')
+const model =
+{
+  "port": 8081,
+  "api": [
+    {
+      "method": "GET",
+      "path": "/example",
+      "response": {
+        "example": "example GET"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/example",
+      "response": {
+        "example": "example POST"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/example",
+      "response": {
+        "example": "example DELETE"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/example",
+      "response": {
+        "example": "example PUT"
+      }
+    }
+  ]
+}
+
+const server = fakeServer(model)
+
+async function callToServer() {
+  const postData = await fetch('http://localhost:8888/example', {method: 'POST'}).then((res) => res.json())
+  // {example: "example POST"}
+  const getData = await fetch('http://localhost:8888/example', {method: 'GET'}).then((res) => res.json())
+  // {example: "example GET"}
+  const putData = await fetch('http://localhost:8888/example', {method: 'PUT'}).then((res) => res.json())
+  // {example: "example PUT"}
+  const deleteData = await fetch('http://localhost:8888/example', {method: 'DELETE'}).then((res) => res.json())
+  // {example: "example DELETE"}
+}
+```
+<img src="./misc/get_example.png">
+
+## authorization
+
+```js
+const fakeServer = require('test-fake-server')
+const fetch = require('node-fetch')
+
+const authorizationInApiObj = {
+        "unauthorized": {   // this property will be used as body for respose
+          "foo": "bar"      //
+        },                  //
+        "status": 401,      // this property will be used as unsuccess status if token is not equal
+        "token":"testToken" // to this toke property value
+      }
+
+const model = {
+  "port": 8081,
+  "authorization": {
+    "type": "headers"
+  },
+  "api": [
+    {
+      "method": "GET",
+      "path": "/example",
+      "response": {
+        "example": "example GET"
+      },
+      "authorization": authorizationInApiObj // default properties is
+                                             // unauthorized : {unauthorized: 'unauthorized'}
+                                             // status : 401
+    }
+  ]
+}
+const server = fakeServer(model)
+
+async function callToServer() {
+  const withoutTokenData = await fetch('http://localhost:8888/example', {method: 'GET'}).then((res) => res.json())
+  // {foo: "bar"}
+  const withTokenData = await fetch('http://localhost:8888/example', {
+    headers: {
+      Authorization: 'Bearer testToken'
+    },
+    method: 'GET'
+  }).then((res) => res.json())
+  // {example: "example GET"}
+}
+callToServer()
+```
+
+<img src="./misc/autiruzation.png">
+
+## params
+
+```js
+const fakeServer = require('test-fake-server')
+const fetch = require('node-fetch')
+
+const model = {
+  "port": "8081",
+  "api": [{
+    "method": "GET",
+    // after : name of param shoulb be used in params_response object
+    // lets check :user
+    "path": "/user/:user/id/:id",
+
+    "params_response": {
+      "id": {
+        "value": "testId",
+        "response": {
+          "testId": "testId"
+        }
+      },
+      // user
+      // if user will contain /user/testUser/id/:id
+      // we will get next response from user object
+      "user": {
+        "value": "testUser",
+        "response": {
+          "user": "testId"
+        }
+      },
+
+      // if we have full uquals between params
+      // we will get general response - response property from params_response object
+      // in this case we heed
+      // http://localhost:8081/user/testUser/id/testId
+      "response": {
+        "full_params_equal": {
+          "username": "test user1",
+          "password": "test password"
+        }
+      }
+    },
+    // this response will be used in other cases
+    // as example http://localhost:8081/user/unknown/id/unknown
+    "response": {
+      "example": "example GET"
+    }
+  }]
+}
+  async function callToServer() {
+  const defaultGetData = await fetch('http://localhost:8081/user/unknown/id/unknown', {method: 'GET'}).then((res) => res.text())
+  // {"example": "example GET"}
+  console.log(defaultGetData)
+
+  const fullPramsEqual = await fetch('http://localhost:8081/user/testUser/id/testId', {method: 'GET'}).then((res) => res.text())
+  // {"full_params_equal": {
+  //   "username": "test user1",
+  //   "password": "test password"
+  // }}
+  console.log(fullPramsEqual)
+
+  const userEqualParamEqual = await fetch('http://localhost:8081/user/testUser/id/unknown', {method: 'GET'}).then((res) => res.text())
+  // {"user": "testId"}
+  console.log(userEqualParamEqual)
+
+  const idEqualParamEqual = await fetch('http://localhost:8081/user/unknown/id/testId', {method: 'GET'}).then((res) => res.text())
+  // {"testId": "testId"}
+  console.log(idEqualParamEqual)
+}
+
+```
+<br />
+Default response
+<br />
+<img src="./misc/params_default.png">
+<br />
+Full params equal response
+<br />
+<img src="./misc/params_full_equal.png">
+<br />
+Partial equal param user
+<br />
+<img src="./misc/params_partial_equal_user.png">
+<br />
+Partial equal param id
+<br />
+<img src="./misc/params_partial_equal_id.png">
+<br />
+
+## File
+
+```js
+const fakeServer = require('test-fake-server')
+const fetch = require('node-fetch')
+const path = require('path')
+
+const indexHtml = path.resolve(__dirname, './index.html')
+const model = {
+  "port": "8081",
+  "api": [{
+    "method": "GET",
+    "path": "/",
+    "response": indexHtml
+  }]
+}
+async function callToServer() {
+const indexHtmlText = await fetch('http://localhost:8081/', {method: 'GET'}).then((res) => res.text())
+  // <html lang="en">
+  //   <head>
+  //     <meta charset="UTF-8">
+  //     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  //     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  //     <title>Document</title>
+  //   </head>
+  //   <body>
+  //     TEST FAKE SERVER
+  //     <div>A</div>
+  //     <div>B</div>
+  //     <div>C</div>
+  //     <div>D</div>
+  //     <div>E</div>
+  //   </body>
+  //   </html>
+  console.log(indexHtmlText)
+}
+
+```
+<img src="./misc/html.png">

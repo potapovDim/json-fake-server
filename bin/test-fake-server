@@ -2,12 +2,12 @@
 'use strict';
 
 process.title = 'test-fake-server';
-try{
+try {
   const port = Number(process.argv.slice(2)[0])
   const FakeServer = require('../index');
   const fakeServer = new FakeServer(port)
   fakeServer.serveStatic()
-} catch (e) {
+} catch(e) {
   console.error(e.message)
 }
 

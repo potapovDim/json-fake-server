@@ -1,0 +1,85 @@
+{
+  "port": 5555,
+  "authorization": {
+    "type": "headers"
+  },
+  "api": [
+    {
+      "method": "GET",
+      "path": "/example",
+      "response": {
+        "example": "example POST"
+      },
+      "response_from_url": {
+        "req_body": {},
+        "req_headers": {},
+        "status": 201,
+        "method": "GET",
+        "url": "http://localhost:8888/user",
+        "merge_with": {
+          "test_merge": "test"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/user/:user/id/:id",
+      "autentification": "test_token",
+      "params_response": {
+        "id": {
+          "value": "testId",
+          "response": {
+            "testId": "testId"
+          }
+        },
+        "user": {
+          "value": "testUser",
+          "response": {
+            "testId": "testId"
+          }
+        },
+        "response": {
+          "full_params_equal": {
+            "username": "test user1",
+            "password": "test password"
+          }
+        }
+      },
+      "response": {
+        "example": "example GET"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/customer/",
+      "params_response": {
+        "id": {
+          "value": "cutomerId",
+          "response": {
+            "testId": "testId"
+          }
+        },
+        "user": {
+          "value": "testCustomer",
+          "response": {
+            "testId": "testId"
+          }
+        },
+        "response": {
+          "full_params_equal": {
+            "username": "test user1",
+            "password": "test password"
+          }
+        }
+      },
+      "response": {
+        "example": "example GET"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/html",
+      "response": "./misc/index.html"
+    }
+  ]
+}
