@@ -7,11 +7,8 @@ describe('Example', () => {
   let server = null
 
   before(async () => {
-    server = fakeServer({json_model_path: '../test.example.json'})
-
-    await (() => new Promise((res) => {
-      setTimeout(res, 1500)
-    }))()
+    const data = require('../misc/test.example1.json')
+    server = fakeServer(data)
   })
   after(() => {
     server.close()
