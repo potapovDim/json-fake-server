@@ -122,3 +122,25 @@ async function callToServer() {
 }
 ```
 <img src="./misc/get_example.png">
+
+## authorization
+```json
+{
+  "port": 8081,
+  "authorization": {
+    "type": "headers"
+  },
+  "api": [
+    {
+      "method": "GET",
+      "path": "/example",
+      "response": {
+        "example": "example GET"
+      },
+      "authorization": {
+        "token":"testToken"
+      }
+    }
+  ]
+}
+```
