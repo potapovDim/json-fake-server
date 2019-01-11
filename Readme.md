@@ -67,8 +67,10 @@ describe('Example', () => {
 
 
 ## HTTP
-./test_model.json
-```json
+```js
+const fakeServer = require('test-fake-server')
+const fetch = require('node-fetch')
+const model =
 {
   "port": 8081,
   "api": [
@@ -102,13 +104,8 @@ describe('Example', () => {
     }
   ]
 }
-```
 
-```js
-const fakeServer = require('test-fake-server')
-const model = require('./test_model.json')
 const server = fakeServer(model)
-const fetch = require('node-fetch')
 
 async function callToServer() {
   const postData = await fetch('http://localhost:8888/example', {method: 'POST'}).then((res) => res.json())
@@ -124,8 +121,20 @@ async function callToServer() {
 <img src="./misc/get_example.png">
 
 ## authorization
-```json
-{
+
+```js
+const fakeServer = require('test-fake-server')
+
+
+const authorizationInApiObj = {
+        "unauthorized": {   // this property will be used as body for respose
+          "foo": "bar"      //
+        },                  //
+        "status": 401,      // this property will be used as unsuccess status if token is not equal
+        "token":"testToken" // to this toke property value
+      }
+
+const model = {
   "port": 8081,
   "authorization": {
     "type": "headers"
@@ -137,10 +146,27 @@ async function callToServer() {
       "response": {
         "example": "example GET"
       },
-      "authorization": {
-        "token":"testToken"
-      }
+      "authorization": authorizationInApiObj // default properties is
+                                             // unauthorized : {unauthorized: 'unauthorized'}
+                                             // status : 401
     }
   ]
 }
+const server = fakeServer(model)
+const fetch = require('node-fetch')
+
+async function callToServer() {
+  const withoutTokenData = await fetch('http://localhost:8888/example', {method: 'GET'}).then((res) => res.json())
+  // {foo: "bar"}
+  const withTokenData = await fetch('http://localhost:8888/example', {
+    headers: {
+      Authorization: 'Bearer testToken'
+    },
+    method: 'GET'
+  }).then((res) => res.json())
+  // {example: "example GET"}
+}
+callToServer()
 ```
+
+<img src="./misc/autiruzation.png">
