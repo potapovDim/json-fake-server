@@ -1,11 +1,10 @@
 {
     "name": "test-fake-server",
-    "version": "1.6.0",
-    "description": "simple pure node http server",
+    "version": "2.0.0",
+    "description": "simple way to create node http server",
     "main": "index.js",
     "scripts": {
-        "test": "mocha --harmony --trace-deprecation  $(find ./specs/ -path '*.spec.*')",
-        "test:watch": "mocha -w --harmony --trace-deprecation  $(find ./specs/ -path '*.spec.*')"
+        "test": "mocha --harmony --trace-deprecation  $(find ./specs/ -path '*.spec.*')"
     },
     "repository": {
         "type": "git",
