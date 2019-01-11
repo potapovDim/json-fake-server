@@ -124,7 +124,7 @@ async function callToServer() {
 
 ```js
 const fakeServer = require('test-fake-server')
-
+const fetch = require('node-fetch')
 
 const authorizationInApiObj = {
         "unauthorized": {   // this property will be used as body for respose
@@ -153,7 +153,6 @@ const model = {
   ]
 }
 const server = fakeServer(model)
-const fetch = require('node-fetch')
 
 async function callToServer() {
   const withoutTokenData = await fetch('http://localhost:8888/example', {method: 'GET'}).then((res) => res.json())
@@ -170,3 +169,56 @@ callToServer()
 ```
 
 <img src="./misc/autiruzation.png">
+
+## params
+
+```js
+const fakeServer = require('test-fake-server')
+const fetch = require('node-fetch')
+
+const model = {
+      "method": "GET",
+
+      "path": "/user/:user/id/:id",
+
+      "autentification": "test_token",
+
+      "params_response": {
+        "id": {
+          "value": "testId",
+          "response": {
+            "testId": "testId"
+          }
+        },
+        "user": {
+          "value": "testUser",
+          "response": {
+            "testId": "testId"
+          }
+        },
+        "response": {
+          "full_params_equal": {
+            "username": "test user1",
+            "password": "test password"
+          }
+        }
+      },
+
+      "response": {
+        "example": "example GET"
+      }
+    }
+  async function callToServer() {
+  async function callToServer() {
+  const withoutTokenData = await fetch('http://localhost:8888/example', {method: 'GET'}).then((res) => res.json())
+  // {foo: "bar"}
+  const withTokenData = await fetch('http://localhost:8888/example', {
+    headers: {
+      Authorization: 'Bearer testToken'
+    },
+    method: 'GET'
+  }).then((res) => res.json())
+  // {example: "example GET"}
+  }
+}
+```
