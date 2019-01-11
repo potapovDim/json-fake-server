@@ -50,18 +50,19 @@ describe('Example', () => {
   })
   it('test post user', asyn () => {
     const responseBody = await fetch('http://localhost:8888/user', {method: 'POST'}).then((res) => res.json())
-    expect(responseBody.user_name).to.eql('test user')
+    expect(responseBody.created).to.eql(true)
   })
   it('test get user', async () => {
     const responseBody = await fetch('http://localhost:8888/user').then((res) => res.json())
     expect(responseBody.user_name).to.eql('test user')
+    expect(responseBody.user_phone).to.eql('test phone')
   })
 })
 ```
 
 ## Model Structure
 
-* [httpmthods](#http)
+* [httpmethods](#http)
 * [authorization](#authorization)
 * [params](#params)
 * [file](#file)
