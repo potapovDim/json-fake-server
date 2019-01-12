@@ -62,13 +62,14 @@ describe('Example', () => {
 
 ## Model Structure
 
-* [httpmethods](#http)
-* [authorization](#authorization)
-* [params](#params)
-* [file](#file)
+- [HTTP methods](#http-method)
+- [Headers authorization](#authorization)
+- [Url params](#params)
+- [HTML static serveriing](#html)
+- [Several server nodes in one environment](#several-server-nodes-in-one-environment)
 
 
-## HTTP
+## HTTP methods
 ```js
 const fakeServer = require('test-fake-server')
 const fetch = require('node-fetch')
@@ -122,7 +123,7 @@ async function callToServer() {
 ```
 <img src="./misc/get_example.png">
 
-## authorization
+## Authorization
 
 ```js
 const fakeServer = require('test-fake-server')
@@ -172,7 +173,7 @@ callToServer()
 
 <img src="./misc/autiruzation.png">
 
-## params
+## Params
 
 ```js
 const fakeServer = require('test-fake-server')
@@ -261,7 +262,7 @@ Partial equal param id
 <img src="./misc/params_partial_equal_id.png">
 <br />
 
-## File
+## HTML
 
 ```js
 const fakeServer = require('test-fake-server')
@@ -300,3 +301,7 @@ const indexHtmlText = await fetch('http://localhost:8081/', {method: 'GET'}).the
 
 ```
 <img src="./misc/html.png">
+
+## Several server nodes in one environment
+
+
