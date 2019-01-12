@@ -12,13 +12,10 @@ const model_entry_point = {
         "req_headers": {},
         "status": 201,
         "method": "GET",
-        "url": "http://localhost:8888/user",
+        "url": "http://localhost:8888/userData",
         "merge_with": {
           "part_from_entrypoint": "entry point"
         }
-      },
-      "response": {
-        "example": "example GET"
       }
     }
   ]
@@ -29,7 +26,7 @@ const model_user = {
   "api": [
     {
       "method": "GET",
-      "path": "/user",
+      "path": "/userData",
       "response": {
         "part_from_user_service": {
           "user_profile": {
@@ -46,15 +43,19 @@ const entry = fakeServer(model_entry_point)
 const userSerice = fakeServer(model_user)
 
 
-// setTimeout(() => {
-//   entry.close()
-//   userSerice.close()
-// }, 50000)
+setTimeout(() => {
+  entry.stop()
+  userSerice.stop()
+}, 2500)
 
-// async function callToServer() {
-//   const getData = await fetch('http://localhost:8081/user', {method: 'GET'}).then((res) => res.json())
-//   // {example: "example GET"}
-//   console.log(getData)
+async function callToServer() {
+  const getData = await fetch('http://localhost:8081/user', {method: 'GET'}).then((res) => res.json())
+  // {
+  // part_from_user_service:
+  //   { user_profile: { username: 'some username', postal_code: 3212654 } },
+  //  part_from_entrypoint: 'entry point'
+  //  }
+  console.log(getData)
 
-// }
-// callToServer()
+}
+callToServer()
