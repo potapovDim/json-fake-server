@@ -23,8 +23,8 @@ const model = {
 const server = fakeServer(model)
 
 setTimeout(() => {
-  server.close()
-}, 25000)
+  server.stop()
+}, 2500)
 
 async function callToServer() {
   const withoutTokenData = await fetch('http://localhost:8081/example', {method: 'GET'}).then((res) => res.json())

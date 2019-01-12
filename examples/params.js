@@ -47,7 +47,7 @@ const model = {
 const server = fakeServer(model)
 
 setTimeout(() => {
-  server.close()
+  server.stop()
 }, 2500)
 
 callToServer()

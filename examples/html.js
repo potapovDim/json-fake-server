@@ -16,8 +16,8 @@ const model = {
 const server = fakeServer(model)
 
 setTimeout(() => {
-  server.close()
-}, 25000)
+  server.stop()
+}, 2500)
 callToServer()
 async function callToServer() {
   const indexHtmlText = await fetch('http://localhost:8081/', {method: 'GET'}).then((res) => res.text())

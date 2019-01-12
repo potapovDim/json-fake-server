@@ -11,17 +11,20 @@ npm install -SD test-fake-server || npm i -g test-fake-server
 ```
 
 ## Example
-./test_model.json
-```json
-{
+mocha test example
+```js
+const fakeServer = require('test-fake-server')
+const fetch = require('node-fetch')
+const {expect} = require('chai')
+
+const model = {
   "port": 8888,
   "api": [
     {
       "method": "GET",
       "path": "/user",
       "response": {
-        "user_name": "test user",
-        "user_phone: "test phone"
+        "user_name": "test user"
       }
     },
     {
@@ -31,18 +34,10 @@ npm install -SD test-fake-server || npm i -g test-fake-server
     }
   ]
 }
-```
-mocha test example
-
-```js
-const fakeServer = require('test-fake-server')
-const fetch = require('node-fetch')
-const {expect} = require('chai')
 
 describe('Example', () => {
   let server = null
   before(() => {
-    const model = require('./test_model.json')
     server = fakeServer(model)
   })
   after(() => {
@@ -55,10 +50,11 @@ describe('Example', () => {
   it('test get user', async () => {
     const responseBody = await fetch('http://localhost:8888/user').then((res) => res.json())
     expect(responseBody.user_name).to.eql('test user')
-    expect(responseBody.user_phone).to.eql('test phone')
   })
 })
 ```
+
+[More examples](https://github.com/potapovDim/mock-backend-rest/tree/new_approach/examples)
 
 ## Model Structure
 
@@ -352,11 +348,6 @@ const entry = fakeServer(model_entry_point)
 const userSerice = fakeServer(model_user)
 
 
-setTimeout(() => {
-  entry.stop()
-  userSerice.stop()
-}, 2500)
-
 async function callToServer() {
   const getData = await fetch('http://localhost:8081/user',
     {method: 'GET'}).then((res) => res.json())
@@ -366,6 +357,8 @@ async function callToServer() {
   //  part_from_entrypoint: 'entry point'
   //  }
   console.log(getData)
+  entry.stop()
+  userSerice.stop()
 }
 ```
 
