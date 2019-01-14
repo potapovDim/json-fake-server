@@ -6,6 +6,6 @@ node_modules
 a.js
 b.js
 package-lock.json
-index.html
+# index.html
 /lib/routes.js
 /misc/test.example.json
