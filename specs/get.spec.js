@@ -40,7 +40,7 @@ describe('Get gets', () => {
       ]
     }
     server = fakeServer(model_obj)
-    const responseBody = await fetch('http://localhost:8888/index').then((res) => res.text())
-    expect(responseBody).to.eql('user_response_success')
+    const responseBody = await fetch('http://localhost:8888/index?test=yes').then((res) => res.text())
+    expect(responseBody).to.contains('<div>test</div>')
   })
 })
