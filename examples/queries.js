@@ -1,6 +1,5 @@
 const fakeServer = require('../')
 const fetch = require('node-fetch')
-const path = require('path')
 
 const model_obj = {
   "port": "8081",
@@ -44,15 +43,6 @@ const model_array = {
   }]
 }
 
-let server_obj = null
-let server_array = null
-
-setTimeout(() => {
-  server_obj.stop()
-  server_array.stop()
-}, 2500)
-
-callToServer()
 async function callToServer() {
 
   server_obj = fakeServer(model_obj)
@@ -63,5 +53,6 @@ async function callToServer() {
   console.log(query_resp_obj)
 
   const query_resp_array = await fetch('http://localhost:8082/test?testOne=1&testTwo=2', {method: 'GET'}).then((res) => res.text())
+  // [{"testOne":1,"testTwo":2},{"testOne":1,"testTwo":2},{"testOne":1,"testTwo":2}]
   console.log(query_resp_array)
 }
