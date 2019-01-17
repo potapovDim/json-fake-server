@@ -59,7 +59,7 @@ describe('Example', () => {
 ## Model Structure
 
 - [HTTP methods](#http-method)
-- [Headers authorization](#authorization)
+- [Authorization](#authorization)
 - [Url params](#params)
 - [Queries](#queries)
 - [HTML static serveriing](#html)
@@ -136,33 +136,27 @@ const authorizationInApiObj = {
 
 const model = {
   "port": 8081,
-  "authorization": {
-    "type": "headers"
-  },
+  "authorization": {"type": "headers"},
   "api": [
     {
       "method": "GET",
       "path": "/example",
-      "response": {
-        "example": "example GET"
-      },
-      "authorization": authorizationInApiObj // default properties is
-                                             // unauthorized : {unauthorized: 'unauthorized'}
-                                             // status : 401
+      "response": {"example": "example GET"},
+      // default properties are
+      // unauthorized : {unauthorized: 'unauthorized'}
+      // status : 401
+      "authorization": authorizationInApiObj
     }
   ]
 }
 const server = fakeServer(model)
 
-async function callToServer() {
+async function callToServerHeaderAuthorization() {
   const withoutTokenData = await fetch('http://localhost:8888/example', {method: 'GET'}).then((res) => res.json())
   // {foo: "bar"}
   const withTokenData = await fetch('http://localhost:8888/example', {
-    headers: {
-      Authorization: 'Bearer testToken'
-    },
-    method: 'GET'
-  }).then((res) => res.json())
+    headers: {Authorization: 'Bearer testToken'},
+    method: 'GET'}).then((res) => res.json())
   // {example: "example GET"}
 }
 callToServer()

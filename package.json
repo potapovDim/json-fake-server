@@ -1,47 +1,47 @@
 {
-    "name": "test-fake-server",
-    "version": "2.2.0",
-    "description": "simple way to create node http server",
-    "main": "index.js",
-    "scripts": {
-        "test": "mocha --harmony --trace-deprecation  $(find ./specs/ -path '*.spec.*')"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/potapovDim/mock-backend-rest.git"
-    },
-    "keywords": [
-        "HTTP",
-        "fake-server",
-        "REST",
-        "API",
-        "MOCK",
-        "MOCK-BACKEND",
-        "STATIC-SERVER"
-    ],
-    "bin": {
-        "test-fake-server": "./bin/test-fake-server"
-    },
-    "author": "potapovDim",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/potapovDim/mock-backend-rest/issues"
-    },
-    "dependencies": {
-        "@koa/cors": "^2.2.3",
-        "ajv": "^6.6.2",
-        "koa-bearer-token": "^1.0.0",
-        "koa-bodyparser": "^4.2.1",
-        "koa-logger": "^3.2.0",
-        "koa-router": "^7.4.0",
-        "koa2": "^2.0.0-alpha.7",
-        "minimist": "^1.2.0",
-        "node-fetch": "^1.7.3"
-    },
-    "homepage": "https://github.com/potapovDim/mock-backend-rest#readme",
-    "devDependencies": {
-        "axios": "^0.16.2",
-        "chai": "^4.1.2",
-        "mocha": "^5.2.0"
-    }
+  "name": "test-fake-server",
+  "version": "2.2.0",
+  "description": "simple way to create node http server",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --harmony --trace-deprecation  $(find ./specs/ -path '*.spec.*')"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/potapovDim/mock-backend-rest.git"
+  },
+  "keywords": [
+    "HTTP",
+    "fake-server",
+    "REST",
+    "API",
+    "MOCK",
+    "MOCK-BACKEND",
+    "STATIC-SERVER"
+  ],
+  "bin": {
+    "test-fake-server": "./bin/test-fake-server"
+  },
+  "author": "potapovDim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/potapovDim/mock-backend-rest/issues"
+  },
+  "dependencies": {
+    "@koa/cors": "^2.2.3",
+    "ajv": "^6.6.2",
+    "koa-bearer-token": "^1.0.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "koa2": "^2.0.0-alpha.7",
+    "minimist": "^1.2.0",
+    "node-fetch": "^1.7.3"
+  },
+  "homepage": "https://github.com/potapovDim/mock-backend-rest#readme",
+  "devDependencies": {
+    "axios": "^0.16.2",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  }
 }
