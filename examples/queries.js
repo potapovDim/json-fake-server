@@ -42,6 +42,7 @@ const model_array = {
     ]
   }]
 }
+callToServer()
 
 async function callToServer() {
 
@@ -55,4 +56,6 @@ async function callToServer() {
   const query_resp_array = await fetch('http://localhost:8082/test?testOne=1&testTwo=2', {method: 'GET'}).then((res) => res.text())
   // [{"testOne":1,"testTwo":2},{"testOne":1,"testTwo":2},{"testOne":1,"testTwo":2}]
   console.log(query_resp_array)
+  server_obj.stop()
+  server_array.stop()
 }

@@ -58,6 +58,7 @@ describe('Example', () => {
 
 ## Model Structure
 
+- [Model Object](#model-object)
 - [HTTP methods](#http-method)
 - [Authorization](#authorization)
 - [Url params](#params)
@@ -65,6 +66,47 @@ describe('Example', () => {
 - [HTML static serveriing](#html)
 - [Several server nodes in one environment](#several-server-nodes-in-one-environment)
 
+
+## Model Object
+
+```js
+const APIModelObject =   {
+  "method": "GET",                    // required field, http methods: GET, POST, PUT, DELETE
+  "path": "/example/:param1/:param2", // required field, params can be presented here
+  "status": 200,                      // status in option field, default is 200
+
+  "params_response": {                // params_response is optional, it required if you want to work with
+    "response": {                     // properties of this object shoulb be equal params declaration in url
+        "allParamsAreEqual": {        // for example our path is "/example/:param1/:param2"
+          "param1": "success",        // params_response object includes properties : param1 and param2
+          "param2": "success"         // object param should have propertie "value" what will uses as a assertion
+        }                             // for example  curl http://localhost:8888/example/testFirst/someItemWhatNotExists
+    },                                // response will be from param1 object - { "testId": "testFirst" }
+    "param1": {                       // if all params value equal our request url params we will get general response
+      "value": "testFirst",           // from params_response object or it it is not exists
+      "response": {                   // responses from params objects will be merged
+          "testId": "testFirst"
+    },
+    "param1": {
+      "value": "testSecond",
+      "response": {
+          "testId": "testSecond"
+      }
+    }
+  },
+  "authorized":{                      // if full server model inludes authorized propertie, this will take part
+                                      // in our endpoint response
+    "unauthorized": {                 // this property will be used as body for respose if request does not have
+      "foo": "bar"                    // credentials
+    },                                // status what will be used, it is optional, default is 401
+    "status": 401,                    //
+    "token":"testToken"               //
+  },
+  "response": {                       // response is option field, default is {ok: 'OK'}
+    "example": "example GET"
+  },
+}
+```
 
 ## HTTP methods
 ```js
