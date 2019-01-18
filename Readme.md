@@ -58,7 +58,7 @@ describe('Example', () => {
 
 ## Model Structure
 
-- [Model Object](#model-object)
+- [Endpoint Model Object](#model-object)
 - [HTTP methods](#http-method)
 - [Authorization](#authorization)
 - [Url params](#params)
@@ -67,7 +67,7 @@ describe('Example', () => {
 - [Several server nodes in one environment](#several-server-nodes-in-one-environment)
 
 
-## Model Object
+## Endpoint Model Object
 
 ```js
 const APIModelObject =   {
