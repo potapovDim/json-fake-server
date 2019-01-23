@@ -11,6 +11,24 @@ npm install -SD test-fake-server || npm i -g test-fake-server
 ```
 
 ## Example
+base usage example
+```js
+const fakeServer = require('test-fake-server')
+const model = {
+  port: 9090,
+  api: [{
+    method: "GET",
+    path: "/",
+    response: "Hello world"
+  }]
+}
+const server = fakeServer(model)
+// open browser
+// url 'http://localhost:9090/
+setTimeout(() => {
+  server.stop()
+}, 25000)
+```
 mocha test example
 ```js
 const fakeServer = require('test-fake-server')
