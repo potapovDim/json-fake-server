@@ -81,7 +81,8 @@ describe('Example', () => {
 - [Authorization](#authorization)
 - [Url params](#params)
 - [Queries](#queries)
-- [HTML static serveriing](#html)
+- [HTML static](#html)
+- [Request body assertion](request-body-assertion)
 - [Several server nodes in one environment](#several-server-nodes-in-one-environment)
 
 
@@ -112,7 +113,7 @@ const APIModelObject =   {
       }
     }
   },
-  "authorized":{                      // if full server model inludes authorized propertie, this will take part
+  "authorization":{                      // if full server model inludes authorized propertie, this will take part
                                       // in our endpoint response
     "unauthorized": {                 // this property will be used as body for respose if request does not have
       "foo": "bar"                    // credentials
@@ -416,9 +417,62 @@ const indexHtmlText = await fetch('http://localhost:8081/', {method: 'GET'}).the
 ```
 <img src="./misc/html.png">
 
+## Request body assertion
+```js
+const fakeServer = require('test-fake-server')
+const fetch = require('node-fetch')
+const model_obj = {
+  "port": "8081",
+  "debug": true,
+  "api": [{
+    "method": "POST",
+    "path": "/test",
+    "request_body_equal": {
+      "status": 404,
+      "not_equal_response": { // this field is optional, default is {"data": "invalid request"}
+         "success": false
+      },
+      "expected_body": {
+        "username": "test_",
+        "password": "test_pass"
+      }
+    },
+    "response": {
+      "success": true
+    }
+  }]
+}
+
+
+const serser = fakeServer(model_obj)
+
+async function callToServer() {
+
+  const body_equal_success = await fetch('http://localhost:8081/test', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({"username": "test_", "password": "test_pass"})
+  }).then((res) => res.text())
+  // {"success":true}
+  console.log(body_equal_success)
+
+  const body_not_equal = await fetch('http://localhost:8081/test', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      "username": "test_1",
+      "password": "test_pass"
+    })
+  }).then((res) => res.text())
+  // {"success": false}
+  console.log(body_not_equal)
+  serser.stop()
+}
+```
+
 ## Several server nodes in one environment
 ```js
-const fakeServer = require('../index')
+const fakeServer = require('test-fake-server')
 const fetch = require('node-fetch')
 
 const model_entry_point = {

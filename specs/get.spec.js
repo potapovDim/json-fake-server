@@ -12,7 +12,7 @@ describe('Get gets', () => {
 
   it('obj response', async () => {
     const model_obj = {
-      "port": 8888,
+      "port": 8887,
       "api": [
         {
           "method": "GET",
@@ -24,13 +24,13 @@ describe('Get gets', () => {
       ]
     }
     server = fakeServer(model_obj)
-    const responseBody = await fetch('http://localhost:8888/user').then((res) => res.json())
+    const responseBody = await fetch('http://localhost:8887/user').then((res) => res.json())
     expect(responseBody.user_response_success).to.eql('user_response_success')
   })
 
   it('html', async () => {
     const model_obj = {
-      "port": 8888,
+      "port": 8887,
       "api": [
         {
           "method": "GET",
@@ -40,7 +40,7 @@ describe('Get gets', () => {
       ]
     }
     server = fakeServer(model_obj)
-    const responseBody = await fetch('http://localhost:8888/index?test=yes').then((res) => res.text())
+    const responseBody = await fetch('http://localhost:8887/index?test=yes').then((res) => res.text())
     expect(responseBody).to.contains('<div>test</div>')
   })
 })
