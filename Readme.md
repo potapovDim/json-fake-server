@@ -82,7 +82,7 @@ describe('Example', () => {
 - [Url params](#params)
 - [Queries](#queries)
 - [HTML static](#html)
-- [Request body assertion](request-body-assertion)
+- [Request body assertion](#request-body-assertion)
 - [Several server nodes in one environment](#several-server-nodes-in-one-environment)
 
 
