@@ -94,6 +94,16 @@ const APIModelObject =   {
   "path": "/example/:param1/:param2", // required field, params can be presented here
   "status": 200,                      // status in option field, default is 200
 
+   "authorization":{                  // if full server model inludes authorization property, this will take part
+                                      // in our endpoint response
+    "unauthorized": {                 // this property will be used as body for respose if request does not have credentials,
+                                      // unauthorized is optional, default is {unauthorized: 'unauthorized'}
+      "foo": "bar"
+    },                                // status what will be used, it is optional, default is 401
+    "status": 401,                    //
+    "token":"testToken"               //
+  },
+
   "params_response": {                // params_response is optional, it required if you want to work with
     "response": {                     // properties of this object shoulb be equal params declaration in url
         "allParamsAreEqual": {        // for example our path is "/example/:param1/:param2"
@@ -113,13 +123,15 @@ const APIModelObject =   {
       }
     }
   },
-  "authorization":{                      // if full server model inludes authorized propertie, this will take part
-                                      // in our endpoint response
-    "unauthorized": {                 // this property will be used as body for respose if request does not have
-      "foo": "bar"                    // credentials
-    },                                // status what will be used, it is optional, default is 401
-    "status": 401,                    //
-    "token":"testToken"               //
+  "request_body_equal": {             // this property will work with PUT, POST, DELETE, PATCH only
+      "status": 404,
+      "not_equal_response": {         // this field is optional, default is {"data": "invalid request"}
+         "success": false
+      },
+      "expected_body": {              // request body should equal expected_body property
+        "username": "test_",
+        "password": "test_pass"
+      }
   },
   "response": {                       // response is option field, default is {ok: 'OK'}
     "example": "example GET"
