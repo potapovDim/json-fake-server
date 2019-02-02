@@ -1,0 +1,12 @@
+{
+  "port": 8081,
+  "api": [
+    {
+      "method": "GET",
+      "path": "/example",
+      "response": {
+        "example": "example GET"
+      }
+    }
+  ]
+}

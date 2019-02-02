@@ -72,7 +72,29 @@ describe('Example', () => {
 })
 ```
 
+## Example from command line
+./test.json
+```json
+{
+  "port": 8081,
+  "api": [
+    {
+      "method": "GET",
+      "path": "/example",
+      "response": {
+        "example": "example GET"
+      }
+    }
+  ]
+}
+```
+
+```sh
+test-fake-server -m ./test.json
+```
+
 [More examples](https://github.com/potapovDim/mock-backend-rest/tree/new_approach/examples)
+
 
 ## Model Structure
 

@@ -3,4 +3,35 @@
 
 process.title = 'test-fake-server';
 
-console.log('Not implemented')
+const argv = require('minimist')(process.argv.slice(2))
+const path = require('path')
+
+const fakeServer = require('../index')
+
+if(argv.help || argv.h) {
+  console.log('test-fake-server -m|--model ${path to JSON file}')
+  console.log('example json:')
+  console.log('________________________________________________')
+  console.log(JSON.stringify({
+    "port": 8081,
+    "api": [
+      {
+        "method": "GET",
+        "path": "/example",
+        "response": {
+          "example": "example GET"
+        }
+      }]
+  }, null, '\t'))
+  console.log('usage example: ')
+  console.log('________________________________________________')
+  console.log('test-fake-server -m ./test.json')
+}
+
+if(argv.m) {
+  fakeServer(require(path.resolve(process.cwd(), argv.m)))
+}
+
+if(argv.model) {
+  fakeServer(require(path.resolve(process.cwd(), argv.model)))
+}
