@@ -77,6 +77,7 @@ describe('Example', () => {
 ```json
 {
   "port": 8081,
+  "host: "0.0.0.0",
   "api": [
     {
       "method": "GET",

@@ -12,6 +12,7 @@ describe('Authorization', () => {
   it('authorization header Bearer', async () => {
     const model = {
       "port": 8081,
+      "host": "172.29.220.231",
       "authorization": {"type": "headers"},
       "api": [
         {
@@ -24,11 +25,11 @@ describe('Authorization', () => {
     }
     server = fakeServer(model)
     // default unauthorized response
-    const default_of_unauthorized = await fetch('http://localhost:8081/example').then((res) => res.json())
+    const default_of_unauthorized = await fetch('http://172.29.220.231:8081/example').then((res) => res.json())
     expect(default_of_unauthorized).to.eql({unauthorized: 'unauthorized'})
 
     // success response
-    const success_response = await fetch('http://localhost:8081/example', {
+    const success_response = await fetch('http://172.29.220.231:8081/example', {
       headers: {'Authorization': 'Bearer testToken'}
     }).then((res) => res.json())
     expect(success_response).to.eql({example: 'example GET'})

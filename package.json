@@ -1,6 +1,6 @@
 {
   "name": "test-fake-server",
-  "version": "2.4.5",
+  "version": "2.5.0",
   "description": "simple way to create node http server",
   "main": "index.js",
   "bin": {
