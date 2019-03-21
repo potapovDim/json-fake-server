@@ -1,6 +1,6 @@
 {
   "name": "test-fake-server",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "simple way to create node http server",
   "main": "index.js",
   "bin": {
@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@koa/cors": "^2.2.3",
-    "ajv": "^6.6.2",
     "koa-bearer-token": "^1.0.0",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",
@@ -42,6 +41,7 @@
   },
   "homepage": "https://github.com/potapovDim/mock-backend-rest#readme",
   "devDependencies": {
+    "ajv": "^6.10.0",
     "axios": "^0.16.2",
     "chai": "^4.1.2",
     "mocha": "^5.2.0"
