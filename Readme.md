@@ -458,7 +458,7 @@ const fakeServer = require('test-fake-server')
 const fetch = require('node-fetch')
 const model_obj = {
   "port": "8081",
-  "debug": true,
+  "debug": true, // if this prop exists log will show all results in console, defailt is false
   "api": [{
     "method": "POST",
     "path": "/test",
