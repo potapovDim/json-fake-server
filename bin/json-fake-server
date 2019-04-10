@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
-process.title = 'test-fake-server';
+process.title = 'json-fake-server';
 
 const argv = require('minimist')(process.argv.slice(2))
 const path = require('path')
@@ -9,7 +9,7 @@ const path = require('path')
 const fakeServer = require('../index')
 
 if(argv.help || argv.h) {
-  console.log('test-fake-server -m|--model ${path to JSON file}')
+  console.log('json-fake-server -m|--model ${path to JSON file}')
   console.log('example json:')
   console.log('________________________________________________')
   console.log(JSON.stringify({
@@ -25,7 +25,7 @@ if(argv.help || argv.h) {
   }, null, '\t'))
   console.log('usage example: ')
   console.log('________________________________________________')
-  console.log('test-fake-server -m ./test.json')
+  console.log('json-fake-server -m ./test.json')
 }
 
 if(argv.m) {

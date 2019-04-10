@@ -1,33 +1,37 @@
 {
-  "name": "test-fake-server",
-  "version": "2.5.2",
+  "name": "json-fake-server",
+  "version": "0.0.2",
   "description": "simple way to create node http server",
   "main": "index.js",
   "bin": {
-    "test-fake-server": "./bin/test-fake-server"
+    "json-fake-server": "./bin/json-fake-server"
   },
   "scripts": {
     "test": "mocha --harmony --trace-deprecation  $(find ./specs/ -path '*.spec.*')"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/potapovDim/mock-backend-rest.git"
+    "url": "git+https://github.com/potapovDim/json-fake-server.git"
   },
   "keywords": [
     "HTTP",
     "fake-server",
     "REST",
     "REST-Api",
+    "JSON-FAKE-SERVER",
     "API",
     "MOCK",
     "MOCK-BACKEND",
     "JSON-Server",
     "STATIC-SERVER"
   ],
-  "author": "potapovDim",
+  "author": {
+    "name": "Dmytro Potapov <potapovDim>",
+    "email": "potapovd3012@gmail.com"
+  },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/potapovDim/mock-backend-rest/issues"
+    "url": "https://github.com/potapovDim/json-fake-server/issues"
   },
   "dependencies": {
     "@koa/cors": "^2.2.3",
@@ -39,7 +43,7 @@
     "minimist": "^1.2.0",
     "node-fetch": "^1.7.3"
   },
-  "homepage": "https://github.com/potapovDim/mock-backend-rest#readme",
+  "homepage": "https://github.com/potapovDim/json-fake-server#readme",
   "devDependencies": {
     "ajv": "^6.10.0",
     "axios": "^0.16.2",

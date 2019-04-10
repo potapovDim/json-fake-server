@@ -3,17 +3,17 @@
 * Build simple fake server with routing, params, static content
 * GET, POST, PUT, DELETE, supported methods, status, bodies etc
 
-![npm downloads](https://img.shields.io/npm/dm/test-fake-server.svg?style=flat-square)
+![npm downloads](https://img.shields.io/npm/dm/json-fake-server.svg?style=flat-square)
 
 ## Install
 ```sh
-npm install -SD test-fake-server || npm i -g test-fake-server
+npm install -SD json-fake-server || npm i -g json-fake-server
 ```
 
 ## Example
 base usage example
 ```js
-const fakeServer = require('test-fake-server')
+const fakeServer = require('json-fake-server')
 const model = {
   port: 9090,
   api: [{
@@ -31,7 +31,7 @@ setTimeout(() => {
 ```
 mocha test example
 ```js
-const fakeServer = require('test-fake-server')
+const fakeServer = require('json-fake-server')
 const fetch = require('node-fetch')
 const {expect} = require('chai')
 
@@ -91,10 +91,10 @@ describe('Example', () => {
 ```
 
 ```sh
-test-fake-server -m ./test.json
+json-fake-server -m ./test.json
 ```
 
-[More examples](https://github.com/potapovDim/mock-backend-rest/tree/new_approach/examples)
+[More examples](https://github.com/potapovDim/json-fake-server/tree/new_approach/examples)
 
 
 ## Model Structure
@@ -164,7 +164,7 @@ const APIModelObject =   {
 
 ## HTTP methods
 ```js
-const fakeServer = require('test-fake-server')
+const fakeServer = require('json-fake-server')
 const fetch = require('node-fetch')
 const model =
 {
@@ -219,7 +219,7 @@ async function callToServer() {
 ## Authorization
 
 ```js
-const fakeServer = require('test-fake-server')
+const fakeServer = require('json-fake-server')
 const fetch = require('node-fetch')
 
 const authorizationInApiObj = {
@@ -263,7 +263,7 @@ callToServer()
 ## Params
 
 ```js
-const fakeServer = require('test-fake-server')
+const fakeServer = require('json-fake-server')
 const fetch = require('node-fetch')
 
 const model = {
@@ -415,7 +415,7 @@ async function callToServer() {
 ## HTML
 
 ```js
-const fakeServer = require('test-fake-server')
+const fakeServer = require('json-fake-server')
 const fetch = require('node-fetch')
 const path = require('path')
 
@@ -454,7 +454,7 @@ const indexHtmlText = await fetch('http://localhost:8081/', {method: 'GET'}).the
 
 ## Request body assertion
 ```js
-const fakeServer = require('test-fake-server')
+const fakeServer = require('json-fake-server')
 const fetch = require('node-fetch')
 const model_obj = {
   "port": "8081",
@@ -507,7 +507,7 @@ async function callToServer() {
 
 ## Several server nodes in one environment
 ```js
-const fakeServer = require('test-fake-server')
+const fakeServer = require('json-fake-server')
 const fetch = require('node-fetch')
 
 const model_entry_point = {
