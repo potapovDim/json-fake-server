@@ -1,24 +1,24 @@
 {
-  "name": "json-fake-server",
+  "name": "test-fake-server",
   "version": "0.0.2",
   "description": "simple way to create node http server",
   "main": "index.js",
   "bin": {
-    "json-fake-server": "./bin/json-fake-server"
+    "test-fake-server": "./bin/test-fake-server"
   },
   "scripts": {
     "test": "mocha --harmony --timeout 5000 --trace-deprecation  $(find ./specs/ -path '*.spec.*')"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/potapovDim/json-fake-server.git"
+    "url": "git+https://github.com/potapovDim/test-fake-server.git"
   },
   "keywords": [
     "HTTP",
     "fake-server",
     "REST",
     "REST-Api",
-    "JSON-FAKE-SERVER",
+    "test-fake-server",
     "API",
     "MOCK",
     "MOCK-BACKEND",
@@ -31,7 +31,7 @@
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/potapovDim/json-fake-server/issues"
+    "url": "https://github.com/potapovDim/test-fake-server/issues"
   },
   "dependencies": {
     "@koa/cors": "^2.2.3",
@@ -43,7 +43,7 @@
     "minimist": "^1.2.0",
     "node-fetch": "^1.7.3"
   },
-  "homepage": "https://github.com/potapovDim/json-fake-server#readme",
+  "homepage": "https://github.com/potapovDim/test-fake-server#readme",
   "devDependencies": {
     "ajv": "^6.10.0",
     "axios": "^0.16.2",
