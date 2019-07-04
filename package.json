@@ -7,7 +7,7 @@
     "json-fake-server": "./bin/json-fake-server"
   },
   "scripts": {
-    "test": "mocha --harmony --trace-deprecation  $(find ./specs/ -path '*.spec.*')"
+    "test": "mocha --harmony --timeout 5000 --trace-deprecation  $(find ./specs/ -path '*.spec.*')"
   },
   "repository": {
     "type": "git",

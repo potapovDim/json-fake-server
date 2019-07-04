@@ -12,7 +12,6 @@ describe('Authorization', () => {
   it('authorization header Bearer', async () => {
     const model = {
       "port": 8081,
-      "host": "172.29.220.231",
       "authorization": {"type": "headers"},
       "api": [
         {

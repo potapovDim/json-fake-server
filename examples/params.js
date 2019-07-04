@@ -10,12 +10,20 @@ const model = {
     "path": "/user/:user/id/:id",
 
     "params_response": {
-      "id": {
-        "value": "testId",
-        "response": {
-          "testId": "testId"
+      "id": [
+        {
+          "value": "testId1",
+          "response": {
+            "testId": "testId1"
+          }
+        },
+        {
+          "value": "testId2",
+          "response": {
+            "testId": "testId2"
+          }
         }
-      },
+      ],
       // user
       // if user will contain /user/testUser/id/:id
       // we will get next response from user object
@@ -56,7 +64,7 @@ async function callToServer() {
   // {"example": "example GET"}
   console.log(defaultGetData)
 
-  const fullPramsEqual = await fetch('http://localhost:8081/user/testUser/id/testId', {method: 'GET'}).then((res) => res.text())
+  const fullPramsEqual = await fetch('http://localhost:8081/user/testUser/id/testId1', {method: 'GET'}).then((res) => res.text())
   // {"full_params_equal": {
   //   "username": "test user1",
   //   "password": "test password"
@@ -67,7 +75,7 @@ async function callToServer() {
   // {"user": "testId"}
   console.log(userEqualParamEqual)
 
-  const idEqualParamEqual = await fetch('http://localhost:8081/user/unknown/id/testId', {method: 'GET'}).then((res) => res.text())
+  const idEqualParamEqual = await fetch('http://localhost:8081/user/unknown/id/testId2', {method: 'GET'}).then((res) => res.text())
   // {"testId": "testId"}
   console.log(idEqualParamEqual)
 }
