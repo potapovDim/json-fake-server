@@ -13,6 +13,7 @@ const model = {
       "id": [
         {
           "value": "testId1",
+          "status": "404",
           "response": {
             "testId": "testId1"
           }

@@ -39,7 +39,6 @@ async function callToServer() {
   }).then((res) => res.text())
   // {"success":true}
   console.log(body_equal_success)
-
   const body_not_equal = await fetch('http://localhost:8081/test', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
