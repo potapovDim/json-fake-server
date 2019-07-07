@@ -135,16 +135,23 @@ const APIModelObject =   {
         }                             // for example  curl http://localhost:8888/example/testFirst/someItemWhatNotExists
     },                                // response will be from param1 object - { "testId": "testFirst" }
     "param1": {                       // if all params value equal our request url params we will get general response
+      "status": 201,                  // in case if custom status code is required put it in param object
       "value": "testFirst",           // from params_response object or it it is not exists
       "response": {                   // responses from params objects will be merged
           "testId": "testFirst"
     },
-    "param1": {
-      "value": "testSecond",
+    "param2": [{                      // in case if response should depends on request param you can use array
+      "value": "testSecondSuccess",   // if /example/some/testSecondSuccess response will be next and status code 200
+      "status": 200,
       "response": {
           "testId": "testSecond"
       }
-    }
+    },
+    {
+      "value": "testSecondFailed",   //  if /example/some/testSecondFailed response will be "Not found" and status code 401
+      "status": 401
+      "response": "Not found"
+    }]
   },
   "request_body_equal": {             // this property will work with PUT, POST, DELETE, PATCH only
       "status": 404,

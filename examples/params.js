@@ -3,6 +3,7 @@ const fetch = require('node-fetch')
 
 const model = {
   "port": "8081",
+  "debug": true,
   "api": [{
     "method": "GET",
     // after : name of param shoulb be used in params_response object
