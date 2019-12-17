@@ -29,7 +29,7 @@ describe('Body equal gets', () => {
     server.stop()
   })
 
-  it('success', async () => {
+  it('success', async function ()  {
     const responseBody = await fetch('http://localhost:8888/user', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -38,7 +38,7 @@ describe('Body equal gets', () => {
     expect(responseBody.success).to.eql(true)
   })
 
-  it('invalid', async () => {
+  it('invalid', async function ()  {
     const responseBody = await fetch('http://localhost:8888/user', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},

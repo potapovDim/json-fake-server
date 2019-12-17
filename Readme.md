@@ -65,7 +65,7 @@ describe('Example', () => {
     const responseBody = await fetch('http://localhost:8888/user', {method: 'POST'}).then((res) => res.json())
     expect(responseBody.created).to.eql(true)
   })
-  it('test get user', async () => {
+  it('test get user', async function ()  {
     const responseBody = await fetch('http://localhost:8888/user').then((res) => res.json())
     expect(responseBody.user_name).to.eql('test user')
   })

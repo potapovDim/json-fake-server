@@ -10,7 +10,7 @@ describe('Get gets', () => {
     server.stop()
   })
 
-  it('obj response', async () => {
+  it('obj response', async function ()  {
     const model_obj = {
       "port": 8887,
       "api": [
@@ -28,7 +28,7 @@ describe('Get gets', () => {
     expect(responseBody.user_response_success).to.eql('user_response_success')
   })
 
-  it('html', async () => {
+  it('html', async function ()  {
     const model_obj = {
       "port": 8887,
       "api": [
