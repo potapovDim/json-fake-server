@@ -46,7 +46,7 @@
   "homepage": "https://github.com/potapovDim/test-fake-server#readme",
   "devDependencies": {
     "ajv": "^6.12.2",
-    "axios": "^0.16.2",
+    "axios": "^0.19.2",
     "chai": "^4.1.2",
     "mocha": "^5.2.0"
   }
