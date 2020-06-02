@@ -22,13 +22,15 @@ const model = {
     response: "Hello world"
   }]
 }
-const server = fakeServer(model)
+fakeServer(model).then((server) => {
+  setTimeout(() => {
+    server.stop()
+  }, 25000)
+})
 // open browser
 // url 'http://localhost:9090/
-setTimeout(() => {
-  server.stop()
-}, 25000)
 ```
+
 mocha test example
 ```js
 const fakeServer = require('test-fake-server')
@@ -55,13 +57,13 @@ const model = {
 
 describe('Example', () => {
   let server = null
-  before(() => {
-    server = fakeServer(model)
+  beforeEach(async () => {
+    server = await fakeServer(model)
   })
-  after(() => {
-    server.stop()
+  after(async () => {
+    await server.stop()
   })
-  it('test post user', asyn () => {
+  it('test post user', async function() {
     const responseBody = await fetch('http://localhost:8888/user', {method: 'POST'}).then((res) => res.json())
     expect(responseBody.created).to.eql(true)
   })
@@ -208,9 +210,9 @@ const model =
   ]
 }
 
-const server = fakeServer(model)
 
 async function callToServer() {
+  const server = await fakeServer(model)
   const postData = await fetch('http://localhost:8888/example', {method: 'POST'}).then((res) => res.json())
   // {example: "example POST"}
   const getData = await fetch('http://localhost:8888/example', {method: 'GET'}).then((res) => res.json())
@@ -252,9 +254,9 @@ const model = {
     }
   ]
 }
-const server = fakeServer(model)
 
 async function callToServerHeaderAuthorization() {
+  const server = await fakeServer(model)
   const withoutTokenData = await fetch('http://localhost:8888/example', {method: 'GET'}).then((res) => res.json())
   // {foo: "bar"}
   const withTokenData = await fetch('http://localhost:8888/example', {
@@ -262,7 +264,7 @@ async function callToServerHeaderAuthorization() {
     method: 'GET'}).then((res) => res.json())
   // {example: "example GET"}
 }
-callToServer()
+callToServerHeaderAuthorization()
 ```
 
 <img src="./misc/autiruzation.png">
@@ -316,7 +318,8 @@ const model = {
     }
   }]
 }
-  async function callToServer() {
+async function callToServer() {
+  const server = await fakeServer(model)
   const defaultGetData = await fetch('http://localhost:8081/user/unknown/id/unknown', {method: 'GET'}).then((res) => res.text())
   // {"example": "example GET"}
   console.log(defaultGetData)
@@ -336,6 +339,8 @@ const model = {
   // {"testId": "testId"}
   console.log(idEqualParamEqual)
 }
+
+callToServer()
 
 ```
 <br />
@@ -406,8 +411,8 @@ const model_array = {
 
 async function callToServer() {
 
-  server_obj = fakeServer(model_obj)
-  server_array = fakeServer(model_array)
+  server_obj = await  fakeServer(model_obj)
+  server_array = await fakeServer(model_array)
 
   const query_resp_obj = await fetch('http://localhost:8081/test?testOne=1&testTwo=2', {method: 'GET'}).then((res) => res.text())
   // {"testOne":1,"testTwo":2}
@@ -416,6 +421,8 @@ async function callToServer() {
   const query_resp_array = await fetch('http://localhost:8082/test?testOne=1&testTwo=2', {method: 'GET'}).then((res) => res.text())
   // [{"testOne":1,"testTwo":2},{"testOne":1,"testTwo":2},{"testOne":1,"testTwo":2}]
   console.log(query_resp_array)
+  await server_obj.stop()
+  await server_array.stop()
 }
 ```
 
@@ -436,6 +443,7 @@ const model = {
   }]
 }
 async function callToServer() {
+  const server = await fakeServer(model)
 const indexHtmlText = await fetch('http://localhost:8081/', {method: 'GET'}).then((res) => res.text())
   // <html lang="en">
   //   <head>
@@ -454,6 +462,7 @@ const indexHtmlText = await fetch('http://localhost:8081/', {method: 'GET'}).the
   //   </body>
   //   </html>
   console.log(indexHtmlText)
+  await server.stop()
 }
 
 ```
@@ -486,9 +495,9 @@ const model_obj = {
 }
 
 
-const serser = fakeServer(model_obj)
 
 async function callToServer() {
+  const serser = await fakeServer(model_obj)
 
   const body_equal_success = await fetch('http://localhost:8081/test', {
     method: 'POST',
@@ -508,7 +517,7 @@ async function callToServer() {
   }).then((res) => res.text())
   // {"success": false}
   console.log(body_not_equal)
-  serser.stop()
+  await serser.stop()
 }
 ```
 
@@ -558,11 +567,11 @@ const model_user = {
   ]
 }
 
-const entry = fakeServer(model_entry_point)
-const userSerice = fakeServer(model_user)
 
 
 async function callToServer() {
+  const entry = await fakeServer(model_entry_point)
+  const userSerice = await fakeServer(model_user)
   const getData = await fetch('http://localhost:8081/user',
     {method: 'GET'}).then((res) => res.json())
   // {
@@ -571,8 +580,8 @@ async function callToServer() {
   //  part_from_entrypoint: 'entry point'
   //  }
   console.log(getData)
-  entry.stop()
-  userSerice.stop()
+ await entry.stop()
+  await userSerice.stop()
 }
 ```
 

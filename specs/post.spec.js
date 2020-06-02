@@ -6,11 +6,11 @@ const path = require('path')
 describe('POST gets', () => {
   let server = null
 
-  afterEach(() => {
-    server.stop()
+  afterEach(async () => {
+    await server.stop()
   })
 
-  it('obj response', async function ()  {
+  it('obj response', async function() {
     const model_obj = {
       "port": 8885,
       "api": [
@@ -23,12 +23,12 @@ describe('POST gets', () => {
         }
       ]
     }
-    server = fakeServer(model_obj)
+    server = await fakeServer(model_obj)
     const responseBody = await fetch('http://localhost:8885/user', {method: 'POST'}).then((res) => res.json())
     expect(responseBody.user_response_success).to.eql('user_response_success')
   })
 
-  it('html', async function ()  {
+  it('html', async function() {
     const model_obj = {
       "port": 8885,
       "api": [
@@ -39,7 +39,7 @@ describe('POST gets', () => {
         }
       ]
     }
-    server = fakeServer(model_obj)
+    server = await fakeServer(model_obj)
     const responseBody = await fetch('http://localhost:8885/index?test=yes', {method: 'POST'}).then((res) => res.text())
     expect(responseBody).to.contains('<div>test</div>')
   })

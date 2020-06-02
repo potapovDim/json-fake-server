@@ -1,4 +1,4 @@
-const App = require('koa2')
+const App = require('koa')
 const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
 const app = new App()

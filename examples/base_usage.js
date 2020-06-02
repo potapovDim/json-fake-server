@@ -7,9 +7,9 @@ const model = {
     response: "Hello world"
   }]
 }
-const server = fakeServer(model)
+const server = fakeServer(model).catch(() => {})
 // open browser
 // url 'http://localhost:9090/
 setTimeout(() => {
-  server.stop()
+  // server.stop()
 }, 25000)

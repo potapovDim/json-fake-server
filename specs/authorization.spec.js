@@ -5,11 +5,11 @@ const {expect} = require('chai')
 describe('Authorization', () => {
   let server = null
 
-  afterEach(() => {
-    server.stop()
+  afterEach(async () => {
+    await server.stop()
   })
 
-  it('authorization header Bearer', async function ()  {
+  it('authorization header Bearer', async function() {
     const model = {
       "port": 8081,
       "authorization": {"type": "headers"},
@@ -22,7 +22,7 @@ describe('Authorization', () => {
         }
       ]
     }
-    server = fakeServer(model)
+    server = await fakeServer(model)
     // default unauthorized response
     const default_of_unauthorized = await fetch('http://0.0.0.0:8081/example').then((res) => res.json())
     expect(default_of_unauthorized).to.eql({unauthorized: 'unauthorized'})
@@ -34,7 +34,7 @@ describe('Authorization', () => {
     expect(success_response).to.eql({example: 'example GET'})
   })
 
-  it('authorization body key', async function ()  {
+  it('authorization body key', async function() {
     const model = {
       "port": 8081,
       "authorization": {"type": "bodyKey"},
@@ -47,7 +47,7 @@ describe('Authorization', () => {
         }
       ]
     }
-    server = fakeServer(model)
+    server = await fakeServer(model)
     // default unauthorized response
     const default_of_unauthorized = await fetch('http://localhost:8081/example', {
       method: 'POST'

@@ -1,7 +1,6 @@
 const fakeServer = require('../index')
 const fetch = require('node-fetch')
 const {expect} = require('chai')
-const path = require('path')
 
 describe('Body equal gets', () => {
   let server = null
@@ -22,14 +21,14 @@ describe('Body equal gets', () => {
       }
     }]
   }
-  beforeEach(() => {
-    server = fakeServer(model_obj)
+  beforeEach(async () => {
+    server = await fakeServer(model_obj)
   })
-  afterEach(() => {
-    server.stop()
+  afterEach(async () => {
+    await server.stop()
   })
 
-  it('success', async function ()  {
+  it('success', async function() {
     const responseBody = await fetch('http://localhost:8888/user', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -38,7 +37,7 @@ describe('Body equal gets', () => {
     expect(responseBody.success).to.eql(true)
   })
 
-  it('invalid', async function ()  {
+  it('invalid', async function() {
     const responseBody = await fetch('http://localhost:8888/user', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
