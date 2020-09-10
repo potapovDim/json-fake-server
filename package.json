@@ -41,7 +41,7 @@
     "koa-router": "^7.4.0",
     "koa": "^2.12.0",
     "minimist": "^1.2.5",
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^2.6.1"
   },
   "homepage": "https://github.com/potapovDim/test-fake-server#readme",
   "devDependencies": {
