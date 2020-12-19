@@ -34,7 +34,7 @@ describe('Body equal gets', () => {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({"username": "test", "password": "test_pass"})
     }).then((res) => res.json())
-    expect(responseBody.success).to.eql(true)
+    expect(responseBody.success).to.eql(12312)
   })
 
   it('invalid', async function() {

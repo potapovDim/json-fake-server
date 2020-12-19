@@ -7,7 +7,8 @@
     "test-fake-server": "./bin/test-fake-server"
   },
   "scripts": {
-    "test": "mocha --harmony --timeout 5000 --trace-deprecation  $(find ./specs/ -path '*.spec.*')"
+    "test": "mocha --harmony --timeout 5000 --trace-deprecation  $(find ./specs/ -path '*.spec.*')",
+    "test:allure": "mocha ./specs/**/*.spec.js --timeout 5000 --reporter allure-mocha "
   },
   "repository": {
     "type": "git",
@@ -46,6 +47,7 @@
   "homepage": "https://github.com/potapovDim/test-fake-server#readme",
   "devDependencies": {
     "ajv": "^6.12.2",
+    "allure-mocha": "^2.0.0-beta.8",
     "axios": "^0.19.2",
     "chai": "^4.1.2",
     "mocha": "^5.2.0"

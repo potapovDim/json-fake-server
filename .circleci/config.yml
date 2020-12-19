@@ -1,0 +1,92 @@
+version: 2.1
+
+orbs:
+    allure: ayte/allure@0.1.3
+jobs:
+  set-up:
+    docker:
+      # the Docker image with Cypress dependencies
+        - image: circleci/node:12.16.3-buster
+    steps:
+        - persist_to_workspace:
+            root: ~/
+            paths:
+                - ~/
+  test:
+    docker:
+      # the Docker image with Cypress dependencies
+      - image: circleci/node:12.16.3-buster
+        environment:
+          TERM: xterm
+    parallelism: 2
+    steps:
+     - attach_workspace:
+          at: ~/
+      - run:
+          name: Install
+          command: npm install
+      - run:
+          name: test
+          command: |
+            set +e
+            npm run test:allure
+            exit_code=$?
+            echo $exit_codea
+            echo "$exit_code" >> ./allure-results/resul
+      - run:
+          name: Check
+          command: ls -la
+      - store_artifacts:
+          path: allure-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+      # - allure/report:
+      #     results-path: allure-results
+      #     artifact-path: allure-report
+      # - run:
+      #     name: Check next
+      #     command: ls -la
+  result:
+    docker:
+      - image: circleci/openjdk:latest
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: 'TEST'
+          command: echo $PWD
+      - run:
+          name: 'LS'
+          command: ls -la
+      - run:
+          name: Allure archive download
+          command: >-
+            curl -L https://github.com/allure-framework/allure2/releases/download/2.13.1/allure-commandline-2.13.1.zip -o /tmp/allure.zip
+      - run:
+          name: Archive extraction
+          command: unzip /tmp/allure.zip
+      - run:
+          name: Allure installation
+          command: sudo mv allure-2.13.1 /usr/local/share/allure
+      - run:
+          name: Allure binary symlinking
+          command: sudo ln -s /usr/local/share/allure/bin/allure /usr/local/bin/allure
+      - run:
+          name: 'Add dir'
+          command: mkdir ./allure-output
+      - run:
+          name: Generate
+          command: allure generate --report-dir ./allure-output ./allure-results
+      - store_artifacts:
+          path: ./allure-output
+
+workflows:
+    "Test workflow":
+        jobs:
+          - test
+          - result:
+              requires:
+                - test

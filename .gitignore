@@ -9,3 +9,6 @@ package-lock.json
 # index.html
 /lib/routes.js
 /misc/test.example.json
+allure-results
+allure-report
+playground.*
