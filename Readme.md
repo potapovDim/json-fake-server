@@ -156,14 +156,15 @@ const APIModelObject =   {
     }]
   },
   "request_body_equal": {             // this property will work with PUT, POST, DELETE, PATCH only
-      "status": 404,
-      "not_equal_response": {         // this field is optional, default is {"data": "invalid request"}
-         "success": false
-      },
-      "expected_body": {              // request body should equal expected_body property
-        "username": "test_",
-        "password": "test_pass"
-      }
+    "allow_partial_request_body": true, // allow send not all keys and get success response
+    "status": 404,
+    "not_equal_response": {         // this field is optional, default is {"data": "invalid request"}
+       "success": false
+    },
+    "expected_body": {              // request body should equal expected_body property
+      "username": "test",
+      "password": "test_pass"
+    }
   },
   "response": {                       // response is option field, default is {ok: 'OK'}
     "example": "example GET"
@@ -472,7 +473,10 @@ const indexHtmlText = await fetch('http://localhost:8081/', {method: 'GET'}).the
 ```js
 const fakeServer = require('test-fake-server')
 const fetch = require('node-fetch')
-const model_obj = {
+
+// full equalty check
+async function callToServer() {
+  const model_obj = {
   "port": "8081",
   "debug": true, // if this prop exists log will show all results in console, defailt is false
   "api": [{
@@ -491,18 +495,109 @@ const model_obj = {
     "response": {
       "success": true
     }
-  }]
-}
+    }]
+  }
 
-
-
-async function callToServer() {
   const serser = await fakeServer(model_obj)
 
   const body_equal_success = await fetch('http://localhost:8081/test', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({"username": "test_", "password": "test_pass"})
+  }).then((res) => res.text())
+  // {"success":true}
+  console.log(body_equal_success)
+
+  const body_not_equal = await fetch('http://localhost:8081/test', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      "username": "test_1",
+      "password": "test_pass"
+    })
+  }).then((res) => res.text())
+  // {"success": false}
+  console.log(body_not_equal)
+  await serser.stop()
+}
+
+async function callToServerPartialRequest() {
+  const model_obj = {
+    "port": "8081",
+    "debug": true, // if this prop exists log will show all results in console, defailt is false
+    "api": [{
+      "method": "POST",
+      "path": "/user",
+      "request_body_equal": {
+        "status": 404,
+        "not_equal_response": { // this field is optional, default is {"data": "invalid request"}
+          "success": false
+        },
+        "allow_partial_request_body": true,
+        "expected_body": {
+          "username": "test_",
+          "password": "test_pass"
+        }
+      },
+      "response": {
+        "success": true
+      }
+    }]
+  }
+
+  const serser = await fakeServer(model_obj)
+
+  const body_equal_success = await fetch('http://localhost:8081/test', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({"username": "test_",}) // partial body matches
+  }).then((res) => res.text())
+  // {"success":true}
+  console.log(body_equal_success)
+
+  const body_not_equal = await fetch('http://localhost:8081/test', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      "username": "test_1",
+      "password": "test_pass"
+    })
+  }).then((res) => res.text())
+  // {"success": false}
+  console.log(body_not_equal)
+  await serser.stop()
+}
+
+async function callToServerPartialExpected() {
+  const model_obj = {
+    "port": "8081",
+    "debug": true, // if this prop exists log will show all results in console, defailt is false
+    "api": [{
+      "method": "POST",
+      "path": "/user",
+      "request_body_equal": {
+        "status": 404,
+        "not_equal_response": { // this field is optional, default is {"data": "invalid request"}
+          "success": false
+        },
+        "allow_partial_expected_body": true,
+        "expected_body": {
+          "username": "test_",
+          "password": "test_pass"
+        }
+      },
+      "response": {
+        "success": true
+      }
+    }]
+  }
+
+  const serser = await fakeServer(model_obj)
+
+  const body_equal_success = await fetch('http://localhost:8081/test', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({"username": "test_", "password": "test_pass", "x": 2, "Y": 2}) // more that required keys are in request body
   }).then((res) => res.text())
   // {"success":true}
   console.log(body_equal_success)

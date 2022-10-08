@@ -9,3 +9,4 @@ package-lock.json
 # index.html
 /lib/routes.js
 /misc/test.example.json
+playground.*

@@ -8,3 +8,4 @@ examples
 .circleci
 index.html
 misc
+playground.*
