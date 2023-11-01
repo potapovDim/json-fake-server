@@ -1,0 +1,19 @@
+{
+	"singleQuote": true,
+	"trailingComma": "all",
+	"arrowParens": "avoid",
+	"printWidth": 120,
+	"tabWidth": 2,
+	"useTabs": false,
+	"semi": true,
+	"bracketSpacing": true,
+	"proseWrap": "never",
+	"overrides": [
+		{
+			"files": "*.spec.*",
+			"options": {
+				"printWidth": 220
+			}
+		}
+	]
+}
