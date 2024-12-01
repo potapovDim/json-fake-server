@@ -1,26 +1,28 @@
-const fakeServer = require('../')
-const fetch = require('node-fetch')
-const path = require('path')
+const fakeServer = require('../');
 
-const indexHtml = path.resolve(__dirname, '../index.html')
+const path = require('path');
+
+const indexHtml = path.resolve(__dirname, '../index.html');
 
 const model = {
-  "port": "8081",
-  "api": [{
-    "method": "GET",
-    "path": "/",
-    "response": indexHtml
-  }]
-}
+  port: '8081',
+  api: [
+    {
+      method: 'GET',
+      path: '/',
+      response: indexHtml,
+    },
+  ],
+};
 
-const server = fakeServer(model)
+const server = fakeServer(model);
 
 setTimeout(() => {
-  server.stop()
-}, 2500)
-callToServer()
+  server.stop();
+}, 2500);
+callToServer();
 async function callToServer() {
-  const indexHtmlText = await fetch('http://localhost:8081/', {method: 'GET'}).then((res) => res.text())
+  const indexHtmlText = await fetch('http://localhost:8081/', { method: 'GET' }).then(res => res.text());
   // <html lang="en">
   //   <head>
   //     <meta charset="UTF-8">
@@ -37,5 +39,5 @@ async function callToServer() {
   //     <div>E</div>
   //   </body>
   //   </html>
-  console.log(indexHtmlText)
+  console.log(indexHtmlText);
 }

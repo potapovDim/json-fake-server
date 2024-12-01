@@ -34,7 +34,7 @@ fakeServer(model).then((server) => {
 mocha test example
 ```js
 const fakeServer = require('test-fake-server')
-const fetch = require('node-fetch')
+
 const {expect} = require('chai')
 
 const model = {
@@ -175,7 +175,7 @@ const APIModelObject =   {
 ## HTTP methods
 ```js
 const fakeServer = require('test-fake-server')
-const fetch = require('node-fetch')
+
 const model =
 {
   "port": 8081,
@@ -230,7 +230,7 @@ async function callToServer() {
 
 ```js
 const fakeServer = require('test-fake-server')
-const fetch = require('node-fetch')
+
 
 const authorizationInApiObj = {
         "unauthorized": {   // this property will be used as body for respose
@@ -274,7 +274,7 @@ callToServerHeaderAuthorization()
 
 ```js
 const fakeServer = require('test-fake-server')
-const fetch = require('node-fetch')
+
 
 const model = {
   "port": "8081",
@@ -366,7 +366,7 @@ Partial equal param id
 ## Queries
 ```js
 const fakeServer = require('../')
-const fetch = require('node-fetch')
+
 
 const model_obj = {
   "port": "8081",
@@ -431,7 +431,7 @@ async function callToServer() {
 
 ```js
 const fakeServer = require('test-fake-server')
-const fetch = require('node-fetch')
+
 const path = require('path')
 
 const indexHtml = path.resolve(__dirname, './index.html')
@@ -472,7 +472,7 @@ const indexHtmlText = await fetch('http://localhost:8081/', {method: 'GET'}).the
 ## Request body assertion
 ```js
 const fakeServer = require('test-fake-server')
-const fetch = require('node-fetch')
+
 
 // full equalty check
 async function callToServer() {
@@ -619,7 +619,7 @@ async function callToServerPartialExpected() {
 ## Several server nodes in one environment
 ```js
 const fakeServer = require('test-fake-server')
-const fetch = require('node-fetch')
+
 
 const model_entry_point = {
   "port": 8081,

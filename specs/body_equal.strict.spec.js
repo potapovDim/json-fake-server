@@ -1,48 +1,50 @@
-const fakeServer = require('../index')
-const fetch = require('node-fetch')
-const {expect} = require('chai')
+const fakeServer = require('../index');
+
+const { expect } = require('chai');
 
 describe('Body equal gets', () => {
-  let server = null
+  let server = null;
   const model_obj = {
-    "port": 8888,
-    "api": [{
-      "method": "POST",
-      "path": "/user",
-      "request_body_equal": {
-        "status": 404,
-        "expected_body": {
-          "username": "test",
-          "password": "test_pass"
-        }
+    port: 8888,
+    api: [
+      {
+        method: 'POST',
+        path: '/user',
+        request_body_equal: {
+          status: 404,
+          expected_body: {
+            username: 'test',
+            password: 'test_pass',
+          },
+        },
+        response: {
+          success: true,
+        },
       },
-      "response": {
-        "success": true
-      }
-    }]
-  }
+    ],
+  };
   beforeEach(async () => {
-    server = await fakeServer(model_obj)
-  })
+    server = await fakeServer(model_obj);
+  });
   afterEach(async () => {
-    await server.stop()
-  })
+    await server.stop();
+  });
 
-  it('success', async function() {
+  it('success', async function () {
     const responseBody = await fetch('http://localhost:8888/user', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({"username": "test", "password": "test_pass"})
-    }).then((res) => res.json())
-    expect(responseBody.success).to.eql(true)
-  })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: 'test', password: 'test_pass' }),
+    }).then(res => res.json());
+    expect(responseBody.success).to.eql(true);
+  });
 
-  it('invalid', async function() {
+  it('invalid', async function () {
     const responseBody = await fetch('http://localhost:8888/user', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({"username": "test---", "password": "test_pass"})
-    }).then((res) => res.json())
-    expect(responseBody.data).to.eql('invalid request')
-  })
-})
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: 'test---', password: 'test_pass' }),
+    }).then(res => res.json());
+    expect(responseBody.data).to.eql('invalid request');
+  });
+});

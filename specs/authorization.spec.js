@@ -1,5 +1,4 @@
 const fakeServer = require('../index');
-const fetch = require('node-fetch');
 const { expect } = require('chai');
 
 describe('Authorization', () => {

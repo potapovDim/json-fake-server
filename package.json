@@ -1,6 +1,6 @@
 {
   "name": "test-fake-server",
-  "version": "2.9.3",
+  "version": "2.10.0",
   "description": "simple way to create node http server",
   "main": "index.js",
   "bin": {
@@ -35,14 +35,12 @@
   },
   "dependencies": {
     "@koa/cors": "^5.0.0",
-    "@koa/router": "^12.0.0",
-    "koa": "^2.13.4",
-    "koa-basic-auth": "^4.0.0",
+    "koa": "^2.15.3",
     "koa-bearer-token": "^1.0.0",
-    "koa-bodyparser": "^4.3.0",
+    "koa-bodyparser": "^4.4.1",
     "koa-logger": "^3.2.0",
+    "koa-router": "^13.0.1",
     "minimist": "^1.2.5",
-    "node-fetch": "^2.6.1",
     "sat-utils": "^1.0.1"
   },
   "homepage": "https://github.com/potapovDim/test-fake-server#readme",
